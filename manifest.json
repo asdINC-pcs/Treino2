@@ -1,0 +1,60 @@
+{
+  "name": "Treinos Pro - Seu Personal Trainer",
+  "short_name": "Treinos Pro",
+  "description": "Aplicativo completo para acompanhar seus treinos com histórico e estatísticas",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#0a0a0a",
+  "theme_color": "#6366f1",
+  "orientation": "portrait",
+  "scope": "./",
+  "icons": [
+    {
+      "src": "icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Costas & Bíceps",
+      "short_name": "Costas",
+      "description": "Iniciar treino de Costas e Bíceps",
+      "url": "./index.html#costas",
+      "icons": [{
+        "src": "icon-192.png",
+        "sizes": "192x192"
+      }]
+    },
+    {
+      "name": "Ombros",
+      "short_name": "Ombros",
+      "description": "Iniciar treino de Ombros",
+      "url": "./index.html#ombro",
+      "icons": [{
+        "src": "icon-192.png",
+        "sizes": "192x192"
+      }]
+    },
+    {
+      "name": "Histórico",
+      "short_name": "Histórico",
+      "description": "Ver histórico de treinos",
+      "url": "./index.html#history",
+      "icons": [{
+        "src": "icon-192.png",
+        "sizes": "192x192"
+      }]
+    }
+  ],
+  "categories": ["health", "fitness", "lifestyle"],
+  "lang": "pt-BR",
+  "dir": "ltr"
+}
