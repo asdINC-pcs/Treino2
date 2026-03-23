@@ -570,21 +570,6 @@ canvas {
           </div>
         </div>
       </div>
-          </div>
-          
-          <div class="menu-card" onclick="openWorkout('ombro')">
-            <div class="menu-card-header">
-              <div class="menu-card-icon" style="color: #f59e0b;">
-                <i class="fas fa-user-shield"></i>
-              </div>
-              <div class="menu-card-content">
-                <h2>Sexta — Ombros</h2>
-                <p>11 exercícios • Foco em ombros e trapézio</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
       
       <!-- Tab: Histórico -->
       <div id="tab-history" class="tab-content hidden">
@@ -637,7 +622,7 @@ canvas {
 </div>
 
 <script>
-// ==================== DADOS DOS TREINOS ====================
+// ==== DADOS DOS TREINOS ====
 const workoutsData = {
   costas: {
     name: "Seg/Qui — Costas & Bíceps",
@@ -712,7 +697,7 @@ const workoutsData = {
   }
 };
 
-// ==================== ESTADO GLOBAL ====================
+// ==== ESTADO GLOBAL ====
 let currentWorkout = null;
 let currentExerciseIndex = null;
 let timerInterval = null;
@@ -724,7 +709,7 @@ let sessionData = {
   modifications: {}
 };
 
-// ==================== LOCALSTORAGE ====================
+// ==== LOCALSTORAGE ====
 function saveToStorage(key, data) {
   localStorage.setItem(key, JSON.stringify(data));
 }
@@ -771,7 +756,7 @@ function saveWorkoutHistory(workoutKey, duration) {
   saveToStorage('workout_history', history);
 }
 
-// ==================== NAVEGAÇÃO ====================
+// ==== NAVEGAÇÃO ====
 function showMenuTab(tab) {
   document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
   event.target.closest('.nav-tab').classList.add('active');
@@ -813,7 +798,7 @@ function backToMenu() {
   workoutStartTime = null;
 }
 
-// ==================== RENDERIZAÇÃO ====================
+// ==== RENDERIZAÇÃO ====
 
 function getExerciseLinks(exercise) {
   const videos = exercise.videos || (exercise.video ? [exercise.video] : []);
@@ -862,7 +847,7 @@ function getVideoThumbnail(videoUrl) {
   return videoUrl.replace('/exercises/', '/exercise-thumbnails/') + '.jpg';
 }
 
-// ==================== EDIÇÃO INLINE ====================
+// ==== EDIÇÃO INLINE ====
 function editField(exerciseIndex, field) {
   const element = document.getElementById(`${field}-${exerciseIndex}`);
   const currentValue = element.textContent;
@@ -904,13 +889,23 @@ function saveField(exerciseIndex, field, value) {
   renderExercises();
 }
 
-// ==================== SÉRIES ====================
+// ==== SÉRIES ====
 function toggleSeries(exerciseIndex, seriesIndex) {
   if (!sessionData.completedSeries[exerciseIndex]) {
     sessionData.completedSeries[exerciseIndex] = [];
   }
   
   const isCompleted = sessionData.completedSeries[exerciseIndex][seriesIndex];
+  
+  // Se estiver tentando marcar como completo, verifica se a anterior já foi marcada
+  if (!isCompleted && seriesIndex > 0) {
+    const previousCompleted = sessionData.completedSeries[exerciseIndex][seriesIndex - 1];
+    if (!previousCompleted) {
+      showNotification('Complete a série anterior primeiro! ⚠️', 'error');
+      return;
+    }
+  }
+
   sessionData.completedSeries[exerciseIndex][seriesIndex] = !isCompleted;
   
   // Atualizar visualmente
@@ -936,7 +931,7 @@ function toggleExerciseComplete(exerciseIndex) {
   }
 }
 
-// ==================== TIMER ====================
+// ==== TIMER ====
 function startTimer(exerciseIndex, seconds) {
   stopTimer();
   
@@ -992,7 +987,7 @@ function updateTimerDisplay() {
   }
 }
 
-// ==================== NOTIFICAÇÕES ====================
+// ==== NOTIFICAÇÕES ====
 function showNotification(message, type = 'success') {
   const notification = document.createElement('div');
   notification.className = 'notification';
@@ -1028,7 +1023,7 @@ function playNotificationSound() {
   oscillator.stop(audioContext.currentTime + 0.5);
 }
 
-// ==================== FINALIZAR TREINO ====================
+// ==== FINALIZAR TREINO ====
 function finishWorkout() {
   stopTimer();
   
@@ -1042,7 +1037,7 @@ function finishWorkout() {
   }, 1500);
 }
 
-// ==================== HISTÓRICO ====================
+// ==== HISTÓRICO ====
 function renderHistory() {
   const history = getFromStorage('workout_history', []);
   const container = document.getElementById('history-list');
@@ -1092,7 +1087,7 @@ function renderHistory() {
   }).join('');
 }
 
-// ==================== ESTATÍSTICAS ====================
+// ==== ESTATÍSTICAS ====
 function renderStats() {
   const history = getFromStorage('workout_history', []);
   
@@ -1299,7 +1294,7 @@ function renderDurationChart(history) {
   });
 }
 
-// ==================== INICIALIZAÇÃO ====================
+// ==== INICIALIZAÇÃO ====
 document.addEventListener('DOMContentLoaded', () => {
   loadWorkoutData();
   
