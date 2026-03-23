@@ -44,19 +44,19 @@ Aplicativo Web Progressivo (PWA) completo para acompanhar seus treinos de muscul
 ## 📱 Instalação como PWA
 
 ### Android
-1. Acesse https://asdinc-pcs.github.io/Treino/
+1. Acesse https://asdinc-pcs.github.io/Treino2/
 2. Toque no menu (⋮) do Chrome
 3. Selecione "Adicionar à tela inicial"
 4. Toque em "Adicionar"
 
 ### iOS (iPhone/iPad)
-1. Acesse https://asdinc-pcs.github.io/Treino/ no Safari
+1. Acesse https://asdinc-pcs.github.io/Treino2/ no Safari
 2. Toque no botão Compartilhar (□↑)
 3. Role e toque em "Adicionar à Tela de Início"
 4. Toque em "Adicionar"
 
 ### Desktop (Chrome/Edge)
-1. Acesse https://asdinc-pcs.github.io/Treino/
+1. Acesse https://asdinc-pcs.github.io/Treino2/
 2. Clique no ícone de instalação (+) na barra de endereço
 3. Clique em "Instalar"
 
@@ -128,7 +128,7 @@ O aplicativo salva os seguintes dados no localStorage do navegador:
 
 Para fazer upload manual das alterações:
 
-1. Acesse https://github.com/asdinc-pcs/Treino
+1. Acesse https://github.com/asdinc-pcs/Treino2
 2. Faça upload dos arquivos atualizados:
    - `index.html`
    - `manifest.json`
@@ -136,7 +136,7 @@ Para fazer upload manual das alterações:
    - `icon-192.png`
    - `icon-512.png`
 3. Aguarde alguns minutos para o GitHub Pages atualizar
-4. Acesse https://asdinc-pcs.github.io/Treino/
+4. Acesse https://asdinc-pcs.github.io/Treino2/
 
 ## 🎨 Personalização
 
