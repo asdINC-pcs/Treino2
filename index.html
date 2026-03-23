@@ -507,6 +507,11 @@ canvas {
     justify-content: center;
   }
 }
+
+/* Exercise Video Links */
+.exercise-links { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 14px; }
+.exercise-link-btn { display: inline-flex; align-items: center; gap: 6px; background: rgba(99, 102, 241, 0.15); border: 1px solid rgba(99, 102, 241, 0.4); color: #a5b4fc; padding: 8px 14px; border-radius: 8px; font-size: 13px; font-weight: 500; cursor: pointer; text-decoration: none; transition: all 0.25s ease; }
+.exercise-link-btn:hover { background: rgba(99, 102, 241, 0.3); border-color: rgba(99, 102, 241, 0.7); color: #fff; transform: translateY(-1px); }
 </style>
 </head>
 <body>
@@ -535,14 +540,36 @@ canvas {
         <div class="menu">
           <div class="menu-card" onclick="openWorkout('costas')">
             <div class="menu-card-header">
-              <div class="menu-card-icon" style="color: #3b82f6;">
-                <i class="fas fa-user-ninja"></i>
-              </div>
-              <div class="menu-card-content">
-                <h2>Seg/Qui — Costas & Bíceps</h2>
-                <p>7 exercícios • Foco em costas e bíceps</p>
-              </div>
+              <div class="menu-card-icon" style="color: #3b82f6;"><i class="fas fa-user-ninja"></i></div>
+              <div class="menu-card-content"><h2>Seg/Qui — Costas &amp; Bíceps</h2><p>7 exercícios</p></div>
             </div>
+          </div>
+          <div class="menu-card" onclick="openWorkout('peito')">
+            <div class="menu-card-header">
+              <div class="menu-card-icon" style="color: #ef4444;"><i class="fas fa-dumbbell"></i></div>
+              <div class="menu-card-content"><h2>Terça — Peito &amp; Tríceps</h2><p>7 exercícios</p></div>
+            </div>
+          </div>
+          <div class="menu-card" onclick="openWorkout('perna')">
+            <div class="menu-card-header">
+              <div class="menu-card-icon" style="color: #10b981;"><i class="fas fa-running"></i></div>
+              <div class="menu-card-content"><h2>Quarta — Perna</h2><p>7 exercícios</p></div>
+            </div>
+          </div>
+          <div class="menu-card" onclick="openWorkout('ombro')">
+            <div class="menu-card-header">
+              <div class="menu-card-icon" style="color: #f59e0b;"><i class="fas fa-user-shield"></i></div>
+              <div class="menu-card-content"><h2>Sexta — Ombros</h2><p>8 exercícios</p></div>
+            </div>
+          </div>
+          <div class="menu-card" onclick="openWorkout('sabado')">
+            <div class="menu-card-header">
+              <div class="menu-card-icon" style="color: #a855f7;"><i class="fas fa-bolt"></i></div>
+              <div class="menu-card-content"><h2>Sábado — Tríceps &amp; Bíceps</h2><p>7 exercícios</p></div>
+            </div>
+          </div>
+        </div>
+      </div>
           </div>
           
           <div class="menu-card" onclick="openWorkout('ombro')">
@@ -617,62 +644,41 @@ const workoutsData = {
     icon: "fas fa-user-ninja",
     color: "#3b82f6",
     exercises: [
-      {
-        name: "Wide Grip Lat Pulldown",
-        series: 4,
-        reps: "10",
-        weight: 66,
-        rest: 60,
-        video: "https://fitbod.me/exercises/wide-grip-lat-pulldown"
-      },
-      {
-        name: "Remada Curvada com barra (Reverse Grip Barbell Bent Over Row)",
-        series: 4,
-        reps: "12",
-        weight: 50,
-        rest: 60,
-        video: "https://fitbod.me/exercises/reverse-grip-barbell-bent-over-row"
-      },
-      {
-        name: "Remada baixa (Cable Row)",
-        series: 3,
-        reps: "10",
-        weight: 65,
-        rest: 60,
-        video: "https://fitbod.me/exercises/cable-row"
-      },
-      {
-        name: "Straight-Arm Pulldown",
-        series: 3,
-        reps: "15",
-        weight: 50,
-        rest: 60,
-        video: "https://fitbod.me/exercises/straight-arm-pulldown"
-      },
-      {
-        name: "Remada unilateral com halter (Dumbbell Row)",
-        series: 3,
-        reps: "10",
-        weight: 28,
-        rest: 60,
-        video: "https://fitbod.me/exercises/dumbbell-row"
-      },
-      {
-        name: "Rosaca direta (Barbell Curl)",
-        series: 3,
-        reps: "10",
-        weight: 26,
-        rest: 60,
-        video: "https://fitbod.me/exercises/barbell-curl"
-      },
-      {
-        name: "Rosaca martelo (Hammer Curl)",
-        series: 3,
-        reps: "8+8",
-        weight: 26,
-        rest: 60,
-        video: "https://fitbod.me/exercises/hammer-curls"
-      }
+      { name: "Wide Grip Lat Pulldown", series: 4, reps: "10", weight: 66, rest: 60, videos: ["https://fitbod.me/exercises/wide-grip-lat-pulldown"] },
+      { name: "Remada Curvada com barra", series: 4, reps: "12", weight: 50, rest: 60, videos: ["https://fitbod.me/exercises/reverse-grip-barbell-bent-over-row"] },
+      { name: "Remada baixa (Cable Row)", series: 3, reps: "10", weight: 65, rest: 60, videos: ["https://fitbod.me/exercises/cable-row"] },
+      { name: "Straight-Arm Pulldown", series: 3, reps: "15", weight: 50, rest: 60, videos: ["https://fitbod.me/exercises/straight-arm-pulldown", "https://fitbod.me/exercises/ez-bar-pjr-pull-over"] },
+      { name: "Remada unilateral com halter", series: 3, reps: "10", weight: 28, rest: 60, videos: ["https://fitbod.me/exercises/dumbbell-row"] },
+      { name: "Rosaca direta", series: 3, reps: "10", weight: 26, rest: 60, videos: ["https://fitbod.me/exercises/barbell-curl"] },
+      { name: "Rosaca martelo", series: 3, reps: "8+8", weight: 14, rest: 60, videos: ["https://fitbod.me/exercises/hammer-curls"] }
+    ]
+  },
+  peito: {
+    name: "Terça — Peito & Tríceps",
+    icon: "fas fa-dumbbell",
+    color: "#ef4444",
+    exercises: [
+      { name: "Manguito rotador", series: 3, reps: "12", weight: 0, rest: 10, videos: ["https://fitbod.me/exercises/loop-band-shoulder-internal-rotation", "https://fitbod.me/exercises/cable-shoulder-external-rotation", "https://fitbod.me/exercises/cable-shoulder-external-rotation-at-90"] },
+      { name: "Supino Inclinado com halter", series: 4, reps: "12", weight: 22, rest: 60, videos: ["https://fitbod.me/exercises/dumbbell-incline-bench-press"] },
+      { name: "Supino reto com halter", series: 4, reps: "12", weight: 22, rest: 60, videos: ["https://fitbod.me/exercises/dumbbell-bench-press"] },
+      { name: "Crucifixo adutor no aparelho", series: 3, reps: "12", weight: 25, rest: 60, videos: ["https://fitbod.me/exercises/cable-crossover-fly"] },
+      { name: "Crucifixo voador", series: 3, reps: "12", weight: 66, rest: 60, videos: ["https://fitbod.me/exercises/machine-fly"] },
+      { name: "Dumbbell Kickbacks + Extension", series: 3, reps: "10", weight: 25, rest: 60, videos: ["https://fitbod.me/exercises/dumbbell-kickbacks", "https://fitbod.me/exercises/standing-dumbbell-tricep-extension"] },
+      { name: "Tríceps no banco com barra", series: 3, reps: "15", weight: 26, rest: 60, videos: ["https://fitbod.me/exercises/skullcrusher"] }
+    ]
+  },
+  perna: {
+    name: "Quarta — Perna",
+    icon: "fas fa-running",
+    color: "#10b981",
+    exercises: [
+      { name: "Cadeira adutora", series: 3, reps: "15", weight: 41, rest: 60, videos: ["https://fitbod.me/exercises/machine-hip-abductor"] },
+      { name: "Cadeira extensora", series: 4, reps: "12", weight: 41, rest: 60, videos: ["https://fitbod.me/exercises/leg-extension"] },
+      { name: "Agachamento no Smith", series: 4, reps: "12", weight: 30, rest: 60, videos: ["https://fitbod.me/exercises/smith-machine-squat"] },
+      { name: "Leg Press 45º", series: 4, reps: "12", weight: 80, rest: 60, videos: ["https://fitbod.me/exercises/leg-press"] },
+      { name: "Flexão de joelho", series: 3, reps: "10", weight: 15, rest: 60, videos: ["https://fitbod.me/exercises/standing-leg-curl"] },
+      { name: "Stiff", series: 3, reps: "12", weight: 54, rest: 60, videos: ["https://fitbod.me/exercises/stiff-legged-deadlift"] },
+      { name: "Panturrilha no Smith", series: 3, reps: "12", weight: 54, rest: 60, videos: ["https://fitbod.me/exercises/smith-machine-calf-raise"] }
     ]
   },
   ombro: {
@@ -680,94 +686,28 @@ const workoutsData = {
     icon: "fas fa-user-shield",
     color: "#f59e0b",
     exercises: [
-      {
-        name: "Manguito rotador (Interna | Externa | 90º)",
-        series: 3,
-        reps: "12",
-        weight: 0,
-        rest: 10,
-        video: null
-      },
-      {
-        name: "Rotação interna",
-        series: 0,
-        reps: "",
-        weight: 0,
-        rest: 0,
-        video: "https://fitbod.me/exercises/loop-band-shoulder-internal-rotation"
-      },
-      {
-        name: "Rotação externa",
-        series: 0,
-        reps: "",
-        weight: 0,
-        rest: 0,
-        video: "https://fitbod.me/exercises/cable-shoulder-external-rotation"
-      },
-      {
-        name: "Rotação externa 90º",
-        series: 0,
-        reps: "",
-        weight: 0,
-        rest: 0,
-        video: "https://fitbod.me/exercises/cable-shoulder-external-rotation-at-90"
-      },
-      {
-        name: "Elevação lateral (Dumbbell Shoulder Raise)",
-        series: 4,
-        reps: "8",
-        weight: 7,
-        rest: 60,
-        video: "https://fitbod.me/exercises/dumbbell-shoulder-raise"
-      },
-      {
-        name: "Single Arm Overhead Press",
-        series: 3,
-        reps: "12",
-        weight: 12,
-        rest: 60,
-        video: "https://fitbod.me/exercises/single-arm-overhead-press"
-      },
-      {
-        name: "Elevação frontal (Dumbbell Front Raise)",
-        series: 3,
-        reps: "8+8",
-        weight: 6,
-        rest: 60,
-        video: "https://fitbod.me/exercises/dumbbell-front-raise"
-      },
-      {
-        name: "Elevação unilateral (Cable Lateral Raise)",
-        series: 3,
-        reps: "8+8",
-        weight: 5,
-        rest: 60,
-        video: "https://fitbod.me/exercises/cable-lateral-raise"
-      },
-      {
-        name: "Crucifixo inverso no voador (Machine Reverse Fly)",
-        series: 3,
-        reps: "12",
-        weight: 52,
-        rest: 60,
-        video: "https://fitbod.me/exercises/machine-reverse-fly"
-      },
-      {
-        name: "Encolhimento anterior no Smith (Smith Machine Behind the Back Shrug)",
-        series: 3,
-        reps: "15",
-        weight: 30,
-        rest: 60,
-        video: "https://fitbod.me/exercises/smith-machine-behind-the-back-shrug"
-      },
-      {
-        name: "Encolhimento subida no Smith (Smith Machine Upright Row)",
-        series: 3,
-        reps: "12",
-        weight: 30,
-        rest: 60,
-        video: "https://fitbod.me/exercises/smith-machine-upright-row"
-      }
+      { name: "Manguito rotador", series: 3, reps: "12", weight: 0, rest: 10, videos: ["https://fitbod.me/exercises/loop-band-shoulder-internal-rotation", "https://fitbod.me/exercises/cable-shoulder-external-rotation", "https://fitbod.me/exercises/cable-shoulder-external-rotation-at-90"] },
+      { name: "Elevação lateral", series: 4, reps: "8", weight: 7, rest: 60, videos: ["https://fitbod.me/exercises/dumbbell-shoulder-raise"] },
+      { name: "Single Arm Overhead Press", series: 3, reps: "12", weight: 12, rest: 60, videos: ["https://fitbod.me/exercises/single-arm-overhead-press"] },
+      { name: "Elevação frontal", series: 3, reps: "8+8", weight: 6, rest: 60, videos: ["https://fitbod.me/exercises/dumbbell-front-raise"] },
+      { name: "Elevação unilateral (Cabo)", series: 3, reps: "8+8", weight: 5, rest: 60, videos: ["https://fitbod.me/exercises/cable-lateral-raise"] },
+      { name: "Crucifixo inverso no voador", series: 3, reps: "12", weight: 52, rest: 60, videos: ["https://fitbod.me/exercises/machine-reverse-fly"] },
+      { name: "Encolhimento anterior Smith", series: 3, reps: "15", weight: 30, rest: 60, videos: ["https://fitbod.me/exercises/smith-machine-behind-the-back-shrug"] },
+      { name: "Encolhimento subida Smith", series: 3, reps: "12", weight: 30, rest: 60, videos: ["https://fitbod.me/exercises/smith-machine-upright-row"] }
+    ]
+  },
+  sabado: {
+    name: "Sábado — Tríceps & Bíceps",
+    icon: "fas fa-bolt",
+    color: "#a855f7",
+    exercises: [
+      { name: "Tríceps no pulley", series: 3, reps: "15", weight: 50, rest: 60, videos: ["https://fitbod.me/exercises/cable-tricep-pushdown"] },
+      { name: "Tríceps testa corda pulley", series: 3, reps: "12", weight: 40, rest: 60, videos: ["https://fitbod.me/exercises/tricep-overhead-extension-with-rope"] },
+      { name: "Tríceps corda pulley", series: 3, reps: "12", weight: 35, rest: 60, videos: ["https://fitbod.me/exercises/cable-rope-tricep-extension"] },
+      { name: "Dumbbell Kickbacks + Extension", series: 3, reps: "10", weight: 25, rest: 60, videos: ["https://fitbod.me/exercises/dumbbell-kickbacks", "https://fitbod.me/exercises/standing-dumbbell-tricep-extension"] },
+      { name: "Rosaca direta", series: 3, reps: "10", weight: 26, rest: 60, videos: ["https://fitbod.me/exercises/barbell-curl"] },
+      { name: "Rosaca martelo", series: 3, reps: "8+8", weight: 14, rest: 60, videos: ["https://fitbod.me/exercises/hammer-curls"] },
+      { name: "Unilateral no scott", series: 3, reps: "10", weight: 16, rest: 60, videos: ["https://fitbod.me/exercises/single-arm-preacher-curl"] }
     ]
   }
 };
@@ -874,104 +814,46 @@ function backToMenu() {
 }
 
 // ==================== RENDERIZAÇÃO ====================
+
+function getExerciseLinks(exercise) {
+  const videos = exercise.videos || (exercise.video ? [exercise.video] : []);
+  return `<div class="exercise-links">${videos.map(url => {
+    const label = (url.split('/exercises/')[1] || "Vídeo").replace(/-/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
+    return `<a class="exercise-link-btn" href="${url}" target="_blank"><i class="fas fa-play-circle"></i> ${label}</a>`;
+  }).join('')}</div>`;
+}
+
 function renderExercises() {
   const container = document.getElementById('exercises-container');
   const workout = workoutsData[currentWorkout];
-  
-  container.innerHTML = workout.exercises.map((exercise, index) => {
-    if (exercise.series === 0) {
-      // Exercício sem séries (apenas vídeo de referência)
-      return `
-        <div class="exercise-card">
-          <div class="exercise-header">
-            <h3 class="exercise-title">${exercise.name}</h3>
-          </div>
-          ${exercise.video ? `
-            <img src="${getVideoThumbnail(exercise.video)}" 
-                 class="exercise-thumbnail" 
-                 onclick="window.open('${exercise.video}', '_blank')"
-                 onerror="this.style.display='none'">
-          ` : ''}
-        </div>
-      `;
-    }
-    
-    return `
-      <div class="exercise-card">
-        <div class="exercise-header">
-          <input type="checkbox" 
-                 class="exercise-checkbox" 
-                 onchange="toggleExerciseComplete(${index})"
-                 ${sessionData.completedExercises[index] ? 'checked' : ''}>
-          <h3 class="exercise-title ${sessionData.completedExercises[index] ? 'completed' : ''}" 
-              id="exercise-title-${index}">
-            ${exercise.name}
-          </h3>
-        </div>
-        
-        <div class="exercise-info">
-          <div class="info-item">
-            <div class="info-label">Séries</div>
-            <div class="info-value" onclick="editField(${index}, 'series')">
-              <span id="series-${index}">${exercise.series}</span>
-            </div>
-          </div>
-          
-          <div class="info-item">
-            <div class="info-label">Repetições</div>
-            <div class="info-value" onclick="editField(${index}, 'reps')">
-              <span id="reps-${index}">${exercise.reps}</span>
-            </div>
-          </div>
-          
-          <div class="info-item">
-            <div class="info-label">Carga (kg)</div>
-            <div class="info-value" onclick="editField(${index}, 'weight')">
-              <span id="weight-${index}">${exercise.weight}</span>
-            </div>
-          </div>
-          
-          <div class="info-item">
-            <div class="info-label">Pausa (s)</div>
-            <div class="info-value" onclick="editField(${index}, 'rest')">
-              <span id="rest-${index}">${exercise.rest}</span>
-            </div>
-          </div>
-        </div>
-        
-        <div class="info-item" style="margin-top: 12px;">
-          <div class="info-label">Séries Completadas</div>
-          <div class="series-counter" id="series-counter-${index}">
-            ${Array.from({length: exercise.series}, (_, i) => `
-              <button class="series-btn ${sessionData.completedSeries[index]?.[i] ? 'completed' : ''}" 
-                      onclick="toggleSeries(${index}, ${i})">
-                ${i + 1}
-              </button>
-            `).join('')}
-          </div>
-        </div>
-        
-        <div id="timer-${index}" class="timer-container" style="display:none;">
-          <div class="timer-display" id="timer-display-${index}">00:00</div>
-          <div class="timer-controls">
-            <button class="timer-btn" onclick="stopTimer()">
-              <i class="fas fa-stop"></i> Parar
-            </button>
-            <button class="timer-btn" onclick="resetTimer(${index})">
-              <i class="fas fa-redo"></i> Reiniciar
-            </button>
-          </div>
-        </div>
-        
-        ${exercise.video ? `
-          <img src="${getVideoThumbnail(exercise.video)}" 
-               class="exercise-thumbnail" 
-               onclick="window.open('${exercise.video}', '_blank')"
-               onerror="this.style.display='none'">
-        ` : ''}
+  container.innerHTML = workout.exercises.map((exercise, index) => `
+    <div class="exercise-card">
+      <div class="exercise-header">
+        <input type="checkbox" class="exercise-checkbox" onchange="toggleExerciseComplete(${index})" ${sessionData.completedExercises[index] ? 'checked' : ''}>
+        <h3 class="exercise-title ${sessionData.completedExercises[index] ? 'completed' : ''}">${exercise.name}</h3>
       </div>
-    `;
-  }).join('');
+      <div class="exercise-info">
+        <div class="info-item"><div class="info-label">Séries</div><div class="info-value" onclick="editField(${index}, 'series')"><span id="series-${index}">${exercise.series}</span></div></div>
+        <div class="info-item"><div class="info-label">Reps</div><div class="info-value" onclick="editField(${index}, 'reps')"><span id="reps-${index}">${exercise.reps}</span></div></div>
+        <div class="info-item"><div class="info-label">Carga</div><div class="info-value" onclick="editField(${index}, 'weight')"><span id="weight-${index}">${exercise.weight}</span></div></div>
+        <div class="info-item"><div class="info-label">Pausa</div><div class="info-value" onclick="editField(${index}, 'rest')"><span id="rest-${index}">${exercise.rest}</span></div></div>
+      </div>
+      <div class="info-item" style="margin-top: 12px;">
+        <div class="info-label">Séries Completadas</div>
+        <div class="series-counter">
+          ${Array.from({length: exercise.series}, (_, i) => `<button class="series-btn ${sessionData.completedSeries[index]?.[i] ? 'completed' : ''}" onclick="toggleSeries(${index}, ${i})">${i + 1}</button>`).join('')}
+        </div>
+      </div>
+      <div id="timer-${index}" class="timer-container" style="display:none;">
+        <div class="timer-display" id="timer-display-${index}">00:00</div>
+        <div class="timer-controls">
+          <button class="timer-btn" onclick="stopTimer()"><i class="fas fa-stop"></i> Parar</button>
+          <button class="timer-btn" onclick="resetTimer(${index})"><i class="fas fa-redo"></i> Reiniciar</button>
+        </div>
+      </div>
+      ${getExerciseLinks(exercise)}
+    </div>
+  `).join('');
 }
 
 function getVideoThumbnail(videoUrl) {
