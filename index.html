@@ -512,6 +512,27 @@ canvas {
 .exercise-links { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 14px; }
 .exercise-link-btn { display: inline-flex; align-items: center; gap: 6px; background: rgba(99, 102, 241, 0.15); border: 1px solid rgba(99, 102, 241, 0.4); color: #a5b4fc; padding: 8px 14px; border-radius: 8px; font-size: 13px; font-weight: 500; cursor: pointer; text-decoration: none; transition: all 0.25s ease; }
 .exercise-link-btn:hover { background: rgba(99, 102, 241, 0.3); border-color: rgba(99, 102, 241, 0.7); color: #fff; transform: translateY(-1px); }
+
+/* Collapsed exercise card */
+.exercise-card.collapsed .exercise-body {
+  display: none;
+}
+.exercise-card.collapsed {
+  border-color: rgba(99, 102, 241, 0.5);
+  background: linear-gradient(135deg, #1a1a2a 0%, #1e1830 100%);
+}
+.exercise-card.collapsed .exercise-title {
+  opacity: 0.7;
+}
+.exercise-collapse-indicator {
+  margin-left: auto;
+  color: #6366f1;
+  font-size: 14px;
+  transition: transform 0.3s ease;
+}
+.exercise-card.collapsed .exercise-collapse-indicator {
+  transform: rotate(-90deg);
+}
 </style>
 </head>
 <body>
@@ -812,11 +833,13 @@ function renderExercises() {
   const container = document.getElementById('exercises-container');
   const workout = workoutsData[currentWorkout];
   container.innerHTML = workout.exercises.map((exercise, index) => `
-    <div class="exercise-card">
-      <div class="exercise-header">
-        <input type="checkbox" class="exercise-checkbox" onchange="toggleExerciseComplete(${index})" ${sessionData.completedExercises[index] ? 'checked' : ''}>
+    <div class="exercise-card ${sessionData.completedExercises[index] ? 'collapsed' : ''}" id="card-${index}">
+      <div class="exercise-header" style="cursor:pointer;" onclick="toggleCardCollapse(${index})">
+        <input type="checkbox" class="exercise-checkbox" onchange="toggleExerciseComplete(${index})" onclick="event.stopPropagation()" ${sessionData.completedExercises[index] ? 'checked' : ''}>
         <h3 class="exercise-title ${sessionData.completedExercises[index] ? 'completed' : ''}">${exercise.name}</h3>
+        <i class="fas fa-chevron-down exercise-collapse-indicator"></i>
       </div>
+      <div class="exercise-body">
       <div class="exercise-info">
         <div class="info-item"><div class="info-label">Séries</div><div class="info-value" onclick="editField(${index}, 'series')"><span id="series-${index}">${exercise.series}</span></div></div>
         <div class="info-item"><div class="info-label">Reps</div><div class="info-value" onclick="editField(${index}, 'reps')"><span id="reps-${index}">${exercise.reps}</span></div></div>
@@ -837,6 +860,7 @@ function renderExercises() {
         </div>
       </div>
       ${getExerciseLinks(exercise)}
+      </div>
     </div>
   `).join('');
 }
@@ -923,12 +947,20 @@ function toggleExerciseComplete(exerciseIndex) {
   const isChecked = event.target.checked;
   sessionData.completedExercises[exerciseIndex] = isChecked;
   
-  const titleElement = document.getElementById(`exercise-title-${exerciseIndex}`);
+  const card = document.getElementById(`card-${exerciseIndex}`);
+  const titleElement = card.querySelector('.exercise-title');
   if (isChecked) {
     titleElement.classList.add('completed');
+    card.classList.add('collapsed');
   } else {
     titleElement.classList.remove('completed');
+    card.classList.remove('collapsed');
   }
+}
+
+function toggleCardCollapse(exerciseIndex) {
+  const card = document.getElementById(`card-${exerciseIndex}`);
+  card.classList.toggle('collapsed');
 }
 
 // ==== TIMER ====
