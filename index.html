@@ -940,6 +940,25 @@ function toggleSeries(exerciseIndex, seriesIndex) {
   if (!isCompleted) {
     const exercise = workoutsData[currentWorkout].exercises[exerciseIndex];
     startTimer(exerciseIndex, exercise.rest);
+
+    // Verificar se todas as séries foram completadas
+    const totalSeries = exercise.series;
+    const completedCount = sessionData.completedSeries[exerciseIndex].filter(s => s).length;
+    if (completedCount === totalSeries) {
+      sessionData.completedExercises[exerciseIndex] = true;
+      const card = document.getElementById(`card-${exerciseIndex}`);
+      const checkbox = card.querySelector('.exercise-checkbox');
+      const titleElement = card.querySelector('.exercise-title');
+      checkbox.checked = true;
+      titleElement.classList.add('completed');
+      // Fechar somente após o timer terminar
+      const waitAndCollapse = setInterval(() => {
+        if (timerInterval === null) {
+          clearInterval(waitAndCollapse);
+          setTimeout(() => card.classList.add('collapsed'), 400);
+        }
+      }, 500);
+    }
   }
 }
 
