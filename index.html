@@ -1400,9 +1400,11 @@ function filterConjExercises() {
   const list = document.getElementById('conj-exercise-list');
   const sorted = getAllExercisesFlat(q);
   list.innerHTML = sorted.slice(0, 80).map((ex, i) => {
+    const hasLink = ex.l && ex.l.trim();
     return `<div class="exercise-list-item" onclick="selectConjExercise(${i}, '${escAttr(q)}')" style="border-color:rgba(139,92,246,0.2)">
       <span class="exercise-item-name">${ex.n}</span>
       <span class="muscle-tag">${ex._muscleName}</span>
+      ${hasLink ? `<a class="exercise-item-link-btn" href="${ex.l}" target="_blank" rel="noopener" onclick="event.stopPropagation()" title="Ver exercício"><i class="fas fa-eye"></i></a>` : ''}
     </div>`;
   }).join('');
 }
