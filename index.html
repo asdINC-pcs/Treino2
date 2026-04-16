@@ -687,7 +687,7 @@ function renderExercises() {
           <div class="info-item"><div class="info-label">Carga (kg)</div><div class="info-value" onclick="editField(${index},'weight')"><span id="weight-${index}">${exercise.weight}</span></div></div>
           <div class="info-item"><div class="info-label">Pausa (seg)</div><div class="info-value" onclick="editField(${index},'rest')"><span id="rest-${index}">${exercise.rest}</span></div></div>
         </div>
-        <div class="info-item" style="margin-top:12px">
+        ${!conj ? `<div class="info-item" style="margin-top:12px">
           <div class="info-label">Séries Completadas</div>
           <div class="series-counter">
             ${Array.from({length:exercise.series},(_,i)=>`<button class="series-btn ${sessionData.completedSeries[index]?.[i]?'completed':''}" onclick="toggleSeries(${index},${i})">${i+1}</button>`).join('')}
@@ -699,7 +699,7 @@ function renderExercises() {
             <button class="timer-btn" onclick="stopTimer()"><i class="fas fa-stop"></i> Parar</button>
             <button class="timer-btn" onclick="resetTimer(${index})"><i class="fas fa-redo"></i> Reiniciar</button>
           </div>
-        </div>
+        </div>` : ''}
         <div class="exercise-links">
           ${muscleIconHtml}
           ${infoBadge}
@@ -709,6 +709,19 @@ function renderExercises() {
           }).join('')}
         </div>
         ${conjSection}
+        ${conj ? `<div class="info-item" style="margin-top:16px">
+          <div class="info-label">Séries Completadas</div>
+          <div class="series-counter">
+            ${Array.from({length:exercise.series},(_,i)=>`<button class="series-btn ${sessionData.completedSeries[index]?.[i]?'completed':''}" onclick="toggleSeries(${index},${i})">${i+1}</button>`).join('')}
+          </div>
+        </div>
+        <div id="timer-${index}" class="timer-container" style="display:none">
+          <div class="timer-display" id="timer-display-${index}">00:00</div>
+          <div class="timer-controls">
+            <button class="timer-btn" onclick="stopTimer()"><i class="fas fa-stop"></i> Parar</button>
+            <button class="timer-btn" onclick="resetTimer(${index})"><i class="fas fa-redo"></i> Reiniciar</button>
+          </div>
+        </div>` : ''}
       </div>
     </div>`;
   }).join('');
