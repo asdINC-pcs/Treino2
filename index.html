@@ -15,7 +15,7 @@
 html{background-color:#2d4a1e}
 body{background:linear-gradient(135deg,#0a0a0a 0%,#0a1a0a 100%);color:#e0e0e0;font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;padding:0;margin:0;min-height:100vh}
 .container{max-width:800px;margin:0 auto;padding:16px}
-.header{background:linear-gradient(135deg,#2d4a1e 0%,#3d6b2a 100%);padding:20px;border-radius:0 0 20px 20px;box-shadow:0 8px 32px rgba(61,107,42,0.3);margin-bottom:24px;border-top:2px solid #f3f5f1}
+.header{background:linear-gradient(135deg,#2d4a1e 0%,#3d6b2a 100%);padding:20px;border-radius:0 0 20px 20px;box-shadow:0 8px 32px rgba(61,107,42,0.3);margin-bottom:24px}
 .header h1{color:#fff;font-size:28px;text-align:center;margin-bottom:10px;text-shadow:2px 2px 4px rgba(0,0,0,0.3)}
 .nav-tabs{display:flex;gap:10px;justify-content:center;margin-top:15px;flex-wrap:wrap}
 .nav-tab{background:rgba(255,255,255,0.15);border:2px solid rgba(255,255,255,0.3);color:#fff;padding:10px 20px;border-radius:12px;cursor:pointer;transition:all 0.3s ease;font-size:14px;font-weight:600}
@@ -64,6 +64,8 @@ body{background:linear-gradient(135deg,#0a0a0a 0%,#0a1a0a 100%);color:#e0e0e0;fo
 .timer-btn:hover{background:rgba(255,255,255,0.3);transform:translateY(-2px)}
 .btn{background:linear-gradient(135deg,#2d4a1e 0%,#3d6b2a 100%);color:#fff;padding:14px 28px;border:none;border-radius:12px;cursor:pointer;font-size:16px;font-weight:600;transition:all 0.3s ease;box-shadow:0 4px 16px rgba(61,107,42,0.3);display:inline-flex;align-items:center;gap:8px}
 .btn:hover{transform:translateY(-2px);box-shadow:0 6px 24px rgba(61,107,42,0.5)}
+.btn:disabled{opacity:0.45;cursor:not-allowed;transform:none;box-shadow:none}
+.btn:disabled:hover{transform:none;box-shadow:none}
 .btn-secondary{background:linear-gradient(135deg,#64748b 0%,#475569 100%)}
 .btn-success{background:linear-gradient(135deg,#059669 0%,#10b981 100%)}
 .btn-danger{background:linear-gradient(135deg,#dc2626 0%,#ef4444 100%)}
@@ -160,6 +162,37 @@ canvas{max-height:300px}
 .ex-action-btn:hover{background:rgba(255,255,255,0.15);color:#fff}
 .ex-action-btn.danger:hover{background:rgba(239,68,68,0.25);border-color:rgba(239,68,68,0.5);color:#ef4444}
 
+.io-bar{display:flex;gap:10px;margin-top:16px;flex-wrap:wrap}
+.io-btn{flex:1;min-width:140px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.15);color:#e0e0e0;padding:12px 16px;border-radius:12px;cursor:pointer;font-size:14px;font-weight:600;transition:all 0.25s;display:flex;align-items:center;justify-content:center;gap:8px}
+.io-btn:hover{background:rgba(61,107,42,0.18);border-color:rgba(61,107,42,0.5);color:#fff;transform:translateY(-1px)}
+.io-btn i{font-size:15px}
+.io-btn.export i{color:#6ee7b7}
+.io-btn.import i{color:#a5b4fc}
+.card-action-btn.success:hover{background:rgba(16,185,129,0.25);border-color:rgba(16,185,129,0.5);color:#10b981}
+.import-option{background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.1);border-radius:12px;padding:14px 16px;cursor:pointer;transition:all 0.2s;display:flex;gap:12px;align-items:flex-start;margin-bottom:10px}
+.import-option:hover{background:rgba(61,107,42,0.15);border-color:rgba(61,107,42,0.5)}
+.import-option i{font-size:22px;color:#86c867;margin-top:2px;flex-shrink:0}
+.import-option.danger:hover{background:rgba(239,68,68,0.15);border-color:rgba(239,68,68,0.5)}
+.import-option.danger i{color:#ef4444}
+.import-option h4{color:#fff;font-size:14px;margin-bottom:4px}
+.import-option p{color:#9ca3af;font-size:12px;line-height:1.4}
+.import-preview{background:rgba(61,107,42,0.1);border:1px solid rgba(61,107,42,0.3);border-radius:10px;padding:12px 14px;margin-bottom:14px;color:#b0b0b0;font-size:13px}
+.import-preview strong{color:#86c867}
+.export-list{max-height:360px;overflow-y:auto;display:flex;flex-direction:column;gap:8px;margin-bottom:14px;padding-right:4px}
+.export-item{display:flex;align-items:center;gap:12px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.1);border-radius:12px;padding:12px 14px;cursor:pointer;transition:all 0.2s}
+.export-item:hover{background:rgba(61,107,42,0.15);border-color:rgba(61,107,42,0.4)}
+.export-item.selected{background:rgba(61,107,42,0.18);border-color:rgba(61,107,42,0.6)}
+.export-item input[type="checkbox"]{width:20px;height:20px;accent-color:#3d6b2a;cursor:pointer;flex-shrink:0}
+.export-item-icon{width:32px;height:32px;display:flex;align-items:center;justify-content:center;flex-shrink:0;filter:drop-shadow(0 0 4px currentColor)}
+.export-item-icon img{width:28px;height:28px;object-fit:contain}
+.export-item-info{flex:1;min-width:0}
+.export-item-name{color:#fff;font-size:14px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.export-item-meta{color:#9ca3af;font-size:12px;margin-top:2px}
+.export-toolbar{display:flex;gap:8px;margin-bottom:12px;align-items:center;flex-wrap:wrap}
+.export-toggle-all{background:rgba(99,102,241,0.1);border:1px solid rgba(99,102,241,0.3);color:#a5b4fc;padding:6px 12px;border-radius:8px;cursor:pointer;font-size:12px;font-weight:600;transition:all 0.2s}
+.export-toggle-all:hover{background:rgba(99,102,241,0.2);border-color:rgba(99,102,241,0.5)}
+.export-count{color:#9ca3af;font-size:13px;margin-left:auto}
+.export-count strong{color:#86c867}
 .add-workout-btn{background:linear-gradient(135deg,rgba(61,107,42,0.15) 0%,rgba(61,107,42,0.15) 100%);border:2px dashed rgba(61,107,42,0.4);color:#86c867;padding:18px 24px;border-radius:16px;cursor:pointer;text-align:center;font-size:15px;font-weight:600;transition:all 0.3s;display:flex;align-items:center;justify-content:center;gap:10px;margin-top:8px}
 .add-workout-btn:hover{background:linear-gradient(135deg,rgba(61,107,42,0.25) 0%,rgba(61,107,42,0.25) 100%);border-color:rgba(61,107,42,0.7);transform:translateY(-2px)}
 .add-exercise-btn{background:rgba(61,107,42,0.1);border:2px dashed rgba(61,107,42,0.3);color:#86c867;padding:14px;border-radius:12px;cursor:pointer;text-align:center;font-size:14px;font-weight:600;transition:all 0.3s;display:flex;align-items:center;justify-content:center;gap:8px;margin-bottom:16px}
@@ -213,6 +246,15 @@ canvas{max-height:300px}
         <div class="add-workout-btn" onclick="openAddWorkoutModal()">
           <i class="fas fa-plus-circle"></i> Adicionar Novo Treino
         </div>
+        <div class="io-bar">
+          <button class="io-btn export" onclick="openExportModal()" title="Escolher quais treinos exportar">
+            <i class="fas fa-file-export"></i> Exportar
+          </button>
+          <button class="io-btn import" onclick="triggerImport()" title="Importar treinos de um arquivo">
+            <i class="fas fa-file-import"></i> Importar
+          </button>
+        </div>
+        <input type="file" id="import-file-input" accept=".json,application/json" style="display:none" onchange="handleImportFile(event)">
       </div>
       <div id="tab-history" class="tab-content hidden">
         <div id="history-list" class="history-list"></div>
@@ -385,6 +427,58 @@ canvas{max-height:300px}
 <!-- Exercise info balloon -->
 <div id="info-balloon" class="tooltip-balloon hidden" style="position:fixed;z-index:9999;max-width:280px;font-size:13px;line-height:1.5;pointer-events:none"></div>
 
+<!-- Export Selection Modal -->
+<div id="export-modal" class="modal-overlay hidden centered" onclick="closeModalOnBg(event,'export-modal')">
+  <div class="modal centered-modal" style="max-width:500px">
+    <div class="modal-title">
+      <i class="fas fa-file-export" style="color:#6ee7b7"></i>
+      <span>Exportar Treinos</span>
+      <button class="modal-close" onclick="closeModal('export-modal')"><i class="fas fa-times"></i></button>
+    </div>
+    <div class="form-label" style="margin-bottom:10px">Selecione os treinos que deseja exportar</div>
+    <div class="export-toolbar">
+      <button class="export-toggle-all" onclick="toggleAllExport(true)"><i class="fas fa-check-square"></i> Selecionar todos</button>
+      <button class="export-toggle-all" onclick="toggleAllExport(false)"><i class="far fa-square"></i> Limpar</button>
+      <div class="export-count"><strong id="export-count-num">0</strong> selecionado(s)</div>
+    </div>
+    <div class="export-list" id="export-list"></div>
+    <div style="display:flex;gap:12px">
+      <button class="btn btn-secondary" style="flex:1" onclick="closeModal('export-modal')">Cancelar</button>
+      <button class="btn" style="flex:2" id="export-confirm-btn" onclick="exportSelected()" disabled><i class="fas fa-download"></i> Exportar</button>
+    </div>
+  </div>
+</div>
+
+<!-- Import Options Modal -->
+<div id="import-modal" class="modal-overlay hidden centered" onclick="closeModalOnBg(event,'import-modal')">
+  <div class="modal centered-modal" style="max-width:460px">
+    <div class="modal-title">
+      <i class="fas fa-file-import" style="color:#a5b4fc"></i>
+      <span>Importar Treinos</span>
+      <button class="modal-close" onclick="closeModal('import-modal')"><i class="fas fa-times"></i></button>
+    </div>
+    <div id="import-preview" class="import-preview"></div>
+    <div class="form-label" style="margin-bottom:10px">Como deseja importar?</div>
+    <div class="import-option" onclick="confirmImport('merge')">
+      <i class="fas fa-plus-circle"></i>
+      <div>
+        <h4>Adicionar aos treinos atuais</h4>
+        <p>Mantém os treinos existentes e adiciona os importados no final da lista.</p>
+      </div>
+    </div>
+    <div class="import-option danger" onclick="confirmImport('replace')">
+      <i class="fas fa-exchange-alt"></i>
+      <div>
+        <h4>Substituir todos os treinos</h4>
+        <p>Remove todos os treinos atuais e usa apenas os importados. Esta ação não pode ser desfeita.</p>
+      </div>
+    </div>
+    <div style="margin-top:8px">
+      <button class="btn btn-secondary btn-sm" style="width:100%" onclick="closeModal('import-modal')">Cancelar</button>
+    </div>
+  </div>
+</div>
+
 
 <script>
 // ==================== EXERCISE DATABASE ====================
@@ -547,6 +641,7 @@ function renderMenu() {
       <div class="menu-card-actions" onclick="event.stopPropagation()">
         <button class="card-action-btn" onclick="openEditWorkoutModal('${w.id}')" title="Editar"><i class="fas fa-pencil-alt"></i></button>
         <button class="card-action-btn" onclick="duplicateWorkout('${w.id}')" title="Duplicar"><i class="fas fa-copy"></i></button>
+        <button class="card-action-btn success" onclick="exportWorkout('${w.id}')" title="Exportar"><i class="fas fa-download"></i></button>
         <button class="card-action-btn danger" onclick="confirmDeleteWorkout('${w.id}')" title="Excluir"><i class="fas fa-trash"></i></button>
       </div>
     </div>
@@ -1415,6 +1510,232 @@ function selectConjExercise(idx, filter) {
   document.getElementById('conj-selected-name').innerHTML = `<i class="fas fa-check-circle" style="color:#a78bfa;margin-right:5px"></i>${conjExercise.n}`;
   const items = document.querySelectorAll('#conj-exercise-list .exercise-list-item');
   items.forEach((el, i) => el.classList.toggle('selected', i === idx));
+}
+
+// ==================== IMPORT / EXPORT ====================
+const EXPORT_VERSION = 1;
+let pendingImport = null; // guarda os treinos aguardando confirmação de importação
+
+function downloadJSON(filename, data) {
+  const json = JSON.stringify(data, null, 2);
+  const blob = new Blob([json], {type: 'application/json'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = filename;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  setTimeout(() => URL.revokeObjectURL(url), 1000);
+}
+
+function sanitizeFilename(str) {
+  return (str || 'treino')
+    .normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+    .replace(/[^a-zA-Z0-9_\- ]/g, '')
+    .trim().replace(/\s+/g, '_')
+    .slice(0, 60) || 'treino';
+}
+
+function exportAllWorkouts() {
+  // Função interna usada ao exportar múltiplos treinos já escolhidos
+  if (!workoutsList.length) {
+    showNotification('Nenhum treino para exportar!', 'error');
+    return;
+  }
+  doExport(workoutsList, `muscleslab-treinos-${new Date().toISOString().split('T')[0]}.json`);
+  showNotification(`${workoutsList.length} treino(s) exportado(s)! 📦`, 'success');
+}
+
+function doExport(workouts, filename) {
+  const payload = {
+    app: 'MusclesLab',
+    version: EXPORT_VERSION,
+    type: 'workouts',
+    exportedAt: new Date().toISOString(),
+    count: workouts.length,
+    workouts,
+  };
+  downloadJSON(filename, payload);
+}
+
+// ----- Modal de seleção para exportação -----
+let exportSelection = new Set();
+
+function openExportModal() {
+  if (!workoutsList.length) {
+    showNotification('Nenhum treino para exportar!', 'error');
+    return;
+  }
+  exportSelection = new Set();
+  renderExportList();
+  updateExportCount();
+  openModal('export-modal');
+}
+
+function renderExportList() {
+  const container = document.getElementById('export-list');
+  container.innerHTML = workoutsList.map(w => {
+    const selected = exportSelection.has(w.id);
+    const count = w.exercises.length;
+    return `
+      <div class="export-item ${selected ? 'selected' : ''}" onclick="toggleExportItem('${w.id}')">
+        <input type="checkbox" ${selected ? 'checked' : ''} onclick="event.stopPropagation();toggleExportItem('${w.id}')">
+        <div class="export-item-icon" style="color:${w.color}">${renderIcon(w.icon, 28)}</div>
+        <div class="export-item-info">
+          <div class="export-item-name">${w.name}</div>
+          <div class="export-item-meta">${count} exercício${count !== 1 ? 's' : ''}</div>
+        </div>
+      </div>`;
+  }).join('');
+}
+
+function toggleExportItem(id) {
+  if (exportSelection.has(id)) exportSelection.delete(id);
+  else exportSelection.add(id);
+  renderExportList();
+  updateExportCount();
+}
+
+function toggleAllExport(selectAll) {
+  exportSelection = selectAll ? new Set(workoutsList.map(w => w.id)) : new Set();
+  renderExportList();
+  updateExportCount();
+}
+
+function updateExportCount() {
+  const n = exportSelection.size;
+  document.getElementById('export-count-num').textContent = n;
+  document.getElementById('export-confirm-btn').disabled = n === 0;
+}
+
+function exportSelected() {
+  if (!exportSelection.size) return;
+  const picked = workoutsList.filter(w => exportSelection.has(w.id));
+  const date = new Date().toISOString().split('T')[0];
+  let filename;
+  if (picked.length === 1) {
+    filename = `muscleslab-${sanitizeFilename(picked[0].name)}-${date}.json`;
+  } else if (picked.length === workoutsList.length) {
+    filename = `muscleslab-treinos-${date}.json`;
+  } else {
+    filename = `muscleslab-selecao-${picked.length}-treinos-${date}.json`;
+  }
+  doExport(picked, filename);
+  closeModal('export-modal');
+  const msg = picked.length === 1
+    ? `"${picked[0].name}" exportado! 📦`
+    : `${picked.length} treinos exportados! 📦`;
+  showNotification(msg, 'success');
+}
+
+function exportWorkout(workoutId) {
+  // Atalho de exportação individual (botão no card)
+  const w = getWorkout(workoutId);
+  if (!w) return;
+  const date = new Date().toISOString().split('T')[0];
+  doExport([w], `muscleslab-${sanitizeFilename(w.name)}-${date}.json`);
+  showNotification(`"${w.name}" exportado! 📦`, 'success');
+}
+
+function triggerImport() {
+  const input = document.getElementById('import-file-input');
+  input.value = ''; // reset para permitir reimportar o mesmo arquivo
+  input.click();
+}
+
+function handleImportFile(event) {
+  const file = event.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = (e) => {
+    try {
+      const data = JSON.parse(e.target.result);
+      const workouts = parseImportData(data);
+      if (!workouts.length) {
+        showNotification('Arquivo não contém treinos válidos!', 'error');
+        return;
+      }
+      pendingImport = workouts;
+      const preview = document.getElementById('import-preview');
+      const names = workouts.slice(0, 4).map(w => w.name).join(', ');
+      const extra = workouts.length > 4 ? ` e mais ${workouts.length - 4}` : '';
+      preview.innerHTML = `<strong>${workouts.length}</strong> treino${workouts.length !== 1 ? 's' : ''} encontrado${workouts.length !== 1 ? 's' : ''}:<br><span style="color:#e0e0e0">${names}${extra}</span>`;
+      openModal('import-modal');
+    } catch (err) {
+      console.error(err);
+      showNotification('Arquivo inválido ou corrompido!', 'error');
+    }
+  };
+  reader.onerror = () => showNotification('Erro ao ler o arquivo!', 'error');
+  reader.readAsText(file);
+}
+
+function parseImportData(data) {
+  // Aceita tanto o formato oficial {workouts: [...]} como um array direto ou um único treino
+  let list = [];
+  if (Array.isArray(data)) {
+    list = data;
+  } else if (data && Array.isArray(data.workouts)) {
+    list = data.workouts;
+  } else if (data && data.exercises && data.name) {
+    list = [data]; // treino único sem wrapper
+  }
+  // Valida cada treino: precisa ter name e exercises (array)
+  return list.filter(w => w && typeof w.name === 'string' && Array.isArray(w.exercises));
+}
+
+function makeUniqueName(desiredName, existingNames) {
+  // Se o nome não existe, usa como está. Senão adiciona " (2)", " (3)", etc.
+  if (!existingNames.has(desiredName)) return desiredName;
+  // Extrai base caso já venha com " (N)" no final
+  const match = desiredName.match(/^(.*) \((\d+)\)$/);
+  const base = match ? match[1] : desiredName;
+  let n = match ? parseInt(match[2]) + 1 : 2;
+  while (existingNames.has(`${base} (${n})`)) n++;
+  return `${base} (${n})`;
+}
+
+function confirmImport(mode) {
+  if (!pendingImport || !pendingImport.length) {
+    closeModal('import-modal');
+    return;
+  }
+  // No modo "substituir", começamos do zero; no "mesclar", partimos dos nomes atuais
+  const existingNames = new Set(mode === 'replace' ? [] : workoutsList.map(w => w.name));
+  const stamp = Date.now();
+  let renamedCount = 0;
+
+  const imported = pendingImport.map((w, i) => {
+    const originalName = w.name;
+    const uniqueName = makeUniqueName(originalName, existingNames);
+    if (uniqueName !== originalName) renamedCount++;
+    existingNames.add(uniqueName); // reserva o nome também dentro do próprio lote importado
+    return {
+      ...w,
+      id: 'workout_' + (stamp + i),
+      name: uniqueName,
+      exercises: Array.isArray(w.exercises) ? w.exercises : [],
+      color: w.color || WORKOUT_COLORS[0],
+      icon: w.icon || {type: 'fa', icon: 'fas fa-dumbbell', label: 'Haltere'},
+    };
+  });
+
+  if (mode === 'replace') {
+    workoutsList = imported;
+  } else {
+    workoutsList = [...workoutsList, ...imported];
+  }
+  persistAll();
+  renderMenu();
+  closeModal('import-modal');
+
+  const base = mode === 'replace'
+    ? `${imported.length} treino(s) importado(s) (substituição). ✅`
+    : `${imported.length} treino(s) adicionado(s)! ✅`;
+  const suffix = renamedCount > 0 ? ` (${renamedCount} renomeado${renamedCount !== 1 ? 's' : ''} para evitar duplicata)` : '';
+  showNotification(base + suffix, 'success');
+  pendingImport = null;
 }
 
 // ==================== INIT ====================
