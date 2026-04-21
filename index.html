@@ -224,6 +224,41 @@ canvas{max-height:300px}
 .muscle-btn.all-btn:hover{background:rgba(99,102,241,0.2);border-color:rgba(99,102,241,0.6)}
 .muscle-btn.all-btn.selected{background:rgba(99,102,241,0.25);border-color:#6366f1}
 .exercise-list-item .muscle-tag{font-size:10px;color:#9ca3af;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);border-radius:6px;padding:2px 6px;flex-shrink:0}
+
+/* Notes / Observação */
+.exercise-notes{margin-top:14px;background:linear-gradient(135deg,rgba(251,191,36,0.08) 0%,rgba(245,158,11,0.08) 100%);border:1px solid rgba(251,191,36,0.3);border-left:3px solid #fbbf24;border-radius:10px;padding:12px 14px;color:#fde68a;font-size:13px;line-height:1.5;display:flex;gap:10px;align-items:flex-start}
+.exercise-notes i{color:#fbbf24;font-size:14px;flex-shrink:0;margin-top:2px}
+.exercise-notes-text{flex:1;white-space:pre-wrap;word-break:break-word}
+.form-textarea{width:100%;background:rgba(255,255,255,0.08);border:1px solid rgba(61,107,42,0.3);color:#fff;padding:12px 16px;border-radius:12px;font-size:14px;font-family:inherit;resize:vertical;min-height:70px;transition:all 0.2s}
+.form-textarea:focus{outline:none;border-color:#3d6b2a;background:rgba(255,255,255,0.12)}
+
+/* Icon emoji style */
+.icon-option-emoji{font-size:24px;line-height:1;filter:drop-shadow(0 0 4px rgba(255,255,255,0.2))}
+.menu-card-icon .icon-emoji{font-size:40px;line-height:1;filter:drop-shadow(0 0 6px rgba(255,255,255,0.3))}
+
+/* Linked (mirror) workout indicator */
+.link-badge{display:inline-flex;align-items:center;gap:4px;background:linear-gradient(135deg,rgba(20,184,166,0.2),rgba(14,165,233,0.2));border:1px solid rgba(20,184,166,0.5);color:#5eead4;font-size:10px;font-weight:700;padding:2px 7px;border-radius:10px;text-transform:uppercase;letter-spacing:0.5px;margin-left:8px;vertical-align:middle}
+.link-badge i{font-size:9px}
+.card-action-btn.link-mirror:hover{background:rgba(20,184,166,0.25);border-color:rgba(20,184,166,0.5);color:#14b8a6}
+.menu-card.is-linked{border-color:rgba(20,184,166,0.35)}
+.menu-card.is-linked::after{content:'';position:absolute;top:0;right:0;width:40px;height:40px;background:radial-gradient(circle at top right,rgba(20,184,166,0.25),transparent 70%);pointer-events:none}
+
+/* Unlink button in edit modal */
+.unlink-warning{background:rgba(20,184,166,0.1);border:1px solid rgba(20,184,166,0.4);color:#5eead4;padding:10px 14px;border-radius:10px;font-size:13px;margin-bottom:14px;display:flex;gap:10px;align-items:flex-start}
+.unlink-warning i{margin-top:2px;color:#14b8a6;flex-shrink:0}
+.unlink-warning-body{flex:1}
+.btn-unlink{background:linear-gradient(135deg,#0f766e 0%,#14b8a6 100%);color:#fff;border:none;padding:6px 12px;border-radius:8px;cursor:pointer;font-size:12px;font-weight:600;margin-top:6px}
+.btn-unlink:hover{opacity:0.9}
+
+/* Duplicate choice modal */
+.dup-option{background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.1);border-radius:12px;padding:14px 16px;cursor:pointer;transition:all 0.2s;display:flex;gap:12px;align-items:flex-start;margin-bottom:10px}
+.dup-option:hover{background:rgba(61,107,42,0.15);border-color:rgba(61,107,42,0.5)}
+.dup-option.mirror:hover{background:rgba(20,184,166,0.15);border-color:rgba(20,184,166,0.5)}
+.dup-option i.dup-icon{font-size:22px;color:#86c867;margin-top:2px;flex-shrink:0}
+.dup-option.mirror i.dup-icon{color:#5eead4}
+.dup-option h4{color:#fff;font-size:14px;margin-bottom:4px}
+.dup-option p{color:#9ca3af;font-size:12px;line-height:1.4}
+
 @media(max-width:600px){.container{padding:12px}.exercise-info{grid-template-columns:repeat(2,1fr)}.action-bar{flex-direction:column}.btn{width:100%;justify-content:center}.muscle-grid{grid-template-columns:repeat(3,1fr)}.icon-picker{grid-template-columns:repeat(5,1fr)}.menu-card{flex-wrap:wrap}.menu-card-content{flex:1 1 auto;min-width:0}.menu-card-actions{width:100%;margin:12px 0 0;justify-content:flex-end;padding-top:12px;border-top:1px solid rgba(61,107,42,0.18);gap:10px}.card-action-btn{width:38px;height:38px;font-size:14px}}
 </style>
 </head>
@@ -295,6 +330,14 @@ canvas{max-height:300px}
       <span id="workout-modal-title">Novo Treino</span>
       <button class="modal-close" onclick="closeModal('workout-modal')"><i class="fas fa-times"></i></button>
     </div>
+    <div id="workout-link-info" class="unlink-warning hidden">
+      <i class="fas fa-link"></i>
+      <div class="unlink-warning-body">
+        <div><strong>Treino espelho</strong> — compartilha os exercícios com <span id="workout-link-partners"></span>.</div>
+        <div style="font-size:12px;margin-top:4px;opacity:0.8">Você pode mudar o nome, ícone e cor deste treino normalmente. Alterações nos exercícios afetam todos os treinos espelhados.</div>
+        <button type="button" class="btn-unlink" onclick="unlinkCurrentWorkout()"><i class="fas fa-unlink"></i> Desvincular este treino</button>
+      </div>
+    </div>
     <div class="form-group">
       <label class="form-label">Nome do Treino</label>
       <input type="text" id="new-workout-name" class="form-input" placeholder="Ex: Seg/Qui — Costas & Bíceps">
@@ -332,7 +375,7 @@ canvas{max-height:300px}
   <div class="modal">
     <div class="modal-title">
       <i class="fas fa-dumbbell" style="color:#8b5cf6"></i>
-      <span>Adicionar Exercício</span>
+      <span id="exercise-modal-title">Adicionar Exercício</span>
       <button class="modal-close" onclick="closeModal('exercise-modal')"><i class="fas fa-times"></i></button>
     </div>
     <!-- Step indicator -->
@@ -387,6 +430,11 @@ canvas{max-height:300px}
         </div>
       </div>
 
+      <div class="form-group">
+        <label class="form-label"><i class="fas fa-sticky-note" style="color:#fbbf24;margin-right:4px"></i> Observação <span style="color:#6b7280;font-weight:400;text-transform:none;letter-spacing:0">(opcional)</span></label>
+        <textarea id="ex-notes" class="form-textarea" placeholder="Ex: foco na fase excêntrica, usar pegada pronada, lembrar de ajustar o banco..."></textarea>
+      </div>
+
       <!-- Conjugated exercise toggle -->
       <button class="conjugate-toggle" id="conjugate-toggle-btn" onclick="toggleConjugate()">
         <i class="fas fa-link"></i> Adicionar exercício conjugado (biset)
@@ -418,7 +466,7 @@ canvas{max-height:300px}
 
       <div style="display:flex;gap:10px;margin-top:16px">
         <button class="btn btn-secondary btn-sm" onclick="exStep(2)"><i class="fas fa-arrow-left"></i> Voltar</button>
-        <button class="btn btn-success btn-sm" style="flex:1" onclick="addExerciseConfirm()"><i class="fas fa-plus"></i> Adicionar ao Treino</button>
+        <button class="btn btn-success btn-sm" style="flex:1" id="ex-confirm-btn" onclick="addExerciseConfirm()"><i class="fas fa-plus"></i> Adicionar ao Treino</button>
       </div>
     </div>
   </div>
@@ -475,6 +523,36 @@ canvas{max-height:300px}
     </div>
     <div style="margin-top:8px">
       <button class="btn btn-secondary btn-sm" style="width:100%" onclick="closeModal('import-modal')">Cancelar</button>
+    </div>
+  </div>
+</div>
+
+<!-- Duplicate Choice Modal -->
+<div id="duplicate-modal" class="modal-overlay hidden centered" onclick="closeModalOnBg(event,'duplicate-modal')">
+  <div class="modal centered-modal" style="max-width:460px">
+    <div class="modal-title">
+      <i class="fas fa-copy" style="color:#86c867"></i>
+      <span>Duplicar Treino</span>
+      <button class="modal-close" onclick="closeModal('duplicate-modal')"><i class="fas fa-times"></i></button>
+    </div>
+    <div id="duplicate-preview" class="import-preview"></div>
+    <div class="form-label" style="margin-bottom:10px">Escolha o tipo de cópia</div>
+    <div class="dup-option" onclick="confirmDuplicate('copy')">
+      <i class="fas fa-copy dup-icon"></i>
+      <div>
+        <h4>Cópia independente</h4>
+        <p>Cria uma nova cópia totalmente separada. Alterações em uma não afetam a outra.</p>
+      </div>
+    </div>
+    <div class="dup-option mirror" onclick="confirmDuplicate('mirror')">
+      <i class="fas fa-link dup-icon"></i>
+      <div>
+        <h4>Cópia espelho (amarrada)</h4>
+        <p>Os dois treinos compartilham os mesmos exercícios. Mudou a carga em um, muda no outro. Apenas o nome, ícone e cor podem ser diferentes. Ideal para o mesmo treino em dias diferentes (ex: Ter e Qui — Costas &amp; Bíceps).</p>
+      </div>
+    </div>
+    <div style="margin-top:8px">
+      <button class="btn btn-secondary btn-sm" style="width:100%" onclick="closeModal('duplicate-modal')">Cancelar</button>
     </div>
   </div>
 </div>
@@ -549,6 +627,45 @@ const WORKOUT_ICONS = [
   {type:'fa', icon:'fas fa-yin-yang',          label:'Yoga'},
   {type:'fa', icon:'fas fa-brain',             label:'Mente'},
   {type:'fa', icon:'fas fa-bed',               label:'Recuperação'},
+  // ── Emojis de musculação / força ──
+  {type:'emoji', char:'💪',  label:'Bíceps flex'},
+  {type:'emoji', char:'🦾',  label:'Braço mecânico'},
+  {type:'emoji', char:'🏋️',  label:'Levantamento'},
+  {type:'emoji', char:'🏋️‍♂️', label:'Homem peso'},
+  {type:'emoji', char:'🏋️‍♀️', label:'Mulher peso'},
+  {type:'emoji', char:'🥇',  label:'Ouro'},
+  {type:'emoji', char:'🥈',  label:'Prata'},
+  {type:'emoji', char:'🥉',  label:'Bronze'},
+  {type:'emoji', char:'🏆',  label:'Troféu'},
+  {type:'emoji', char:'🏅',  label:'Medalha'},
+  {type:'emoji', char:'🎯',  label:'Foco'},
+  {type:'emoji', char:'🔥',  label:'Em chamas'},
+  {type:'emoji', char:'⚡',  label:'Explosão'},
+  {type:'emoji', char:'💥',  label:'Impacto'},
+  {type:'emoji', char:'💯',  label:'Máximo'},
+  {type:'emoji', char:'✊',  label:'Punho'},
+  {type:'emoji', char:'👊',  label:'Soco'},
+  {type:'emoji', char:'🤜',  label:'Direita'},
+  {type:'emoji', char:'🤛',  label:'Esquerda'},
+  {type:'emoji', char:'🥊',  label:'Boxe'},
+  {type:'emoji', char:'😤',  label:'Determinação'},
+  {type:'emoji', char:'🥵',  label:'Suando'},
+  {type:'emoji', char:'🩸',  label:'Sangue, suor'},
+  {type:'emoji', char:'🗡️',  label:'Espada'},
+  {type:'emoji', char:'⚔️',  label:'Batalha'},
+  {type:'emoji', char:'🛡️',  label:'Proteção'},
+  {type:'emoji', char:'🏃',  label:'Corrida'},
+  {type:'emoji', char:'🚴',  label:'Ciclismo'},
+  {type:'emoji', char:'🏊',  label:'Natação'},
+  {type:'emoji', char:'🤸',  label:'Funcional'},
+  {type:'emoji', char:'🧘',  label:'Mobilidade'},
+  {type:'emoji', char:'🦵',  label:'Perna'},
+  {type:'emoji', char:'🦿',  label:'Perna mec.'},
+  {type:'emoji', char:'🐂',  label:'Touro'},
+  {type:'emoji', char:'🦁',  label:'Leão'},
+  {type:'emoji', char:'🐉',  label:'Dragão'},
+  {type:'emoji', char:'🌟',  label:'Brilho'},
+  {type:'emoji', char:'🚀',  label:'Foguete'},
 ];
 
 const WORKOUT_COLORS = [
@@ -619,14 +736,20 @@ function renderIcon(icon, size=40) {
   if (icon.type === 'img') {
     return `<img src="${MUSCLE_ICONS[icon.key]||''}" style="width:${size}px;height:${size}px;object-fit:contain">`;
   }
+  if (icon.type === 'emoji') {
+    return `<span class="icon-emoji" style="font-size:${size}px;line-height:1;display:inline-block">${icon.char||'💪'}</span>`;
+  }
   return `<i class="${icon.icon}" style="font-size:${size}px"></i>`;
 }
 
 // ==================== MENU RENDER ====================
 function renderMenu() {
   const container = document.getElementById('workouts-menu');
-  container.innerHTML = workoutsList.map((w, i) => `
-    <div class="menu-card" id="wcard-${w.id}" draggable="true"
+  container.innerHTML = workoutsList.map((w, i) => {
+    const isLinked = !!w.linkGroupId;
+    const linkBadge = isLinked ? `<span class="link-badge" title="Treino espelho — compartilha exercícios"><i class="fas fa-link"></i> espelho</span>` : '';
+    return `
+    <div class="menu-card ${isLinked?'is-linked':''}" id="wcard-${w.id}" draggable="true"
       ondragstart="wDragStart(event,'${w.id}')"
       ondragover="wDragOver(event,'${w.id}')"
       ondrop="wDrop(event,'${w.id}')"
@@ -635,17 +758,17 @@ function renderMenu() {
       <div class="drag-handle" onclick="event.stopPropagation()"><i class="fas fa-grip-vertical"></i></div>
       <div class="menu-card-icon" style="color:${w.color}">${renderIcon(w.icon,40)}</div>
       <div class="menu-card-content">
-        <h2>${w.name}</h2>
+        <h2>${w.name}${linkBadge}</h2>
         <p>${w.exercises.length} exercício${w.exercises.length!==1?'s':''}</p>
       </div>
       <div class="menu-card-actions" onclick="event.stopPropagation()">
         <button class="card-action-btn" onclick="openEditWorkoutModal('${w.id}')" title="Editar"><i class="fas fa-pencil-alt"></i></button>
-        <button class="card-action-btn" onclick="duplicateWorkout('${w.id}')" title="Duplicar"><i class="fas fa-copy"></i></button>
+        <button class="card-action-btn" onclick="openDuplicateModal('${w.id}')" title="Duplicar"><i class="fas fa-copy"></i></button>
         <button class="card-action-btn success" onclick="exportWorkout('${w.id}')" title="Exportar"><i class="fas fa-download"></i></button>
         <button class="card-action-btn danger" onclick="confirmDeleteWorkout('${w.id}')" title="Excluir"><i class="fas fa-trash"></i></button>
       </div>
     </div>
-  `).join('');
+  `}).join('');
 }
 
 // ==================== DRAG & DROP (WORKOUTS) ====================
@@ -771,6 +894,7 @@ function renderExercises() {
           ${conjBadge}
         </div>
         <div class="exercise-card-btns" onclick="event.stopPropagation()">
+          <button class="ex-action-btn" onclick="openEditExerciseModal(${index})" title="Editar"><i class="fas fa-pencil-alt"></i></button>
           <button class="ex-action-btn danger" onclick="confirmDeleteExercise(${index})" title="Remover"><i class="fas fa-trash"></i></button>
         </div>
         <i class="fas fa-chevron-down exercise-collapse-indicator"></i>
@@ -803,6 +927,7 @@ function renderExercises() {
             return `<a class="exercise-link-btn" href="${url}" target="_blank"><i class="fas fa-play-circle"></i> ${label}</a>`;
           }).join('')}
         </div>
+        ${exercise.notes && exercise.notes.trim() ? `<div class="exercise-notes"><i class="fas fa-sticky-note"></i><div class="exercise-notes-text">${escHtml(exercise.notes)}</div></div>` : ''}
         ${conjSection}
         ${conj ? `<div class="info-item" style="margin-top:16px">
           <div class="info-label">Séries Completadas</div>
@@ -824,6 +949,32 @@ function renderExercises() {
 
 function escAttr(str) {
   return (str||'').replace(/'/g,'&#39;').replace(/"/g,'&quot;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+
+function escHtml(str) {
+  return (str||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');
+}
+
+// ==================== LINKED WORKOUTS (MIRROR) ====================
+// Sincroniza os exercícios do treino "source" com todos os outros treinos do mesmo linkGroupId.
+// Cada treino mantém seu nome/ícone/cor próprios, mas o array de exercícios é igualado (cópia profunda).
+function syncLinkedWorkouts(sourceWorkoutId) {
+  const src = getWorkout(sourceWorkoutId);
+  if (!src || !src.linkGroupId) return; // nada a sincronizar
+  workoutsList.forEach(w => {
+    if (w.id === src.id) return;
+    if (w.linkGroupId === src.linkGroupId) {
+      // Cópia profunda dos exercícios — mantém nome/ícone/cor/id próprios
+      w.exercises = JSON.parse(JSON.stringify(src.exercises));
+    }
+  });
+}
+
+// Lista os nomes dos outros treinos no mesmo grupo (para exibir no aviso de edição)
+function getLinkedPartners(workoutId) {
+  const w = getWorkout(workoutId);
+  if (!w || !w.linkGroupId) return [];
+  return workoutsList.filter(x => x.id !== workoutId && x.linkGroupId === w.linkGroupId);
 }
 
 // ==================== TOOLTIP ====================
@@ -890,6 +1041,7 @@ function exDrop(e, targetIdx) {
   });
   const [moved] = w.exercises.splice(dragSrcExercise, 1);
   w.exercises.splice(targetIdx, 0, moved);
+  syncLinkedWorkouts(currentWorkoutId);
   persistWorkout(currentWorkoutId);
   sessionData = {completedSeries: newCompletedSeries, completedExercises: newCompletedExercises, modifications:{}};
   renderExercises();
@@ -921,6 +1073,7 @@ function saveField(exerciseIndex, field, value) {
   const w = getWorkout(currentWorkoutId);
   if (!w) return;
   w.exercises[exerciseIndex][field] = field === 'reps' ? value : Number(value);
+  syncLinkedWorkouts(currentWorkoutId);
   persistWorkout(currentWorkoutId);
   renderExercises();
 }
@@ -943,6 +1096,7 @@ function saveConjField(exerciseIndex, field, value) {
   const w = getWorkout(currentWorkoutId);
   if (!w || !w.exercises[exerciseIndex].conjugate) return;
   w.exercises[exerciseIndex].conjugate[field] = field === 'reps' ? value : Number(value);
+  syncLinkedWorkouts(currentWorkoutId);
   persistWorkout(currentWorkoutId);
   renderExercises();
 }
@@ -1164,24 +1318,95 @@ function confirmDeleteWorkout(workoutId) {
 }
 
 function deleteWorkout(workoutId) {
-  workoutsList = workoutsList.filter(w => w.id !== workoutId);
+  const w = getWorkout(workoutId);
+  const groupId = w ? w.linkGroupId : null;
+  workoutsList = workoutsList.filter(x => x.id !== workoutId);
+  // Se sobrou só 1 treino no grupo de espelho, desvincula automaticamente
+  if (groupId) {
+    const remaining = workoutsList.filter(x => x.linkGroupId === groupId);
+    if (remaining.length === 1) {
+      delete remaining[0].linkGroupId;
+    }
+  }
   persistAll();
   renderMenu();
   showNotification('Treino removido!', 'success');
 }
 
-function duplicateWorkout(workoutId) {
+// ==================== DUPLICATE (normal / mirror) ====================
+let pendingDuplicateWorkoutId = null;
+
+function openDuplicateModal(workoutId) {
   const w = getWorkout(workoutId);
   if (!w) return;
+  pendingDuplicateWorkoutId = workoutId;
+  const preview = document.getElementById('duplicate-preview');
+  preview.innerHTML = `Treino: <strong>${escHtml(w.name)}</strong> &middot; <span style="color:#e0e0e0">${w.exercises.length} exercício${w.exercises.length !== 1 ? 's' : ''}</span>`;
+  openModal('duplicate-modal');
+}
+
+function confirmDuplicate(mode) {
+  if (!pendingDuplicateWorkoutId) { closeModal('duplicate-modal'); return; }
+  const w = getWorkout(pendingDuplicateWorkoutId);
+  if (!w) { closeModal('duplicate-modal'); return; }
+
   const newId = 'workout_' + Date.now();
   const copy = JSON.parse(JSON.stringify(w));
   copy.id = newId;
-  copy.name = copy.name + ' (cópia)';
-  const idx = workoutsList.findIndex(x => x.id === workoutId);
+
+  if (mode === 'mirror') {
+    // Cópia espelho: compartilha exercícios via linkGroupId
+    // Se o treino de origem ainda não tem grupo, cria um agora (e atribui ao original também)
+    if (!w.linkGroupId) {
+      w.linkGroupId = 'link_' + Date.now();
+    }
+    copy.linkGroupId = w.linkGroupId;
+    copy.name = copy.name + ' (espelho)';
+  } else {
+    // Cópia independente: remove qualquer linkGroupId herdado
+    delete copy.linkGroupId;
+    copy.name = copy.name + ' (cópia)';
+  }
+
+  const idx = workoutsList.findIndex(x => x.id === pendingDuplicateWorkoutId);
   workoutsList.splice(idx + 1, 0, copy);
   persistAll();
   renderMenu();
-  showNotification(`"${copy.name}" criado! 📋`, 'success');
+  closeModal('duplicate-modal');
+
+  if (mode === 'mirror') {
+    showNotification(`"${copy.name}" criado como espelho! 🔗`, 'success');
+  } else {
+    showNotification(`"${copy.name}" criado! 📋`, 'success');
+  }
+  pendingDuplicateWorkoutId = null;
+}
+
+// Função antiga mantida para compatibilidade (caso algo externo chame)
+function duplicateWorkout(workoutId) {
+  openDuplicateModal(workoutId);
+}
+
+function unlinkCurrentWorkout() {
+  if (!editingWorkoutId) return;
+  const w = getWorkout(editingWorkoutId);
+  if (!w || !w.linkGroupId) return;
+
+  const partners = getLinkedPartners(editingWorkoutId);
+  // Remove o vínculo deste treino
+  delete w.linkGroupId;
+
+  // Se só sobrou 1 parceiro no grupo, desvincula ele também (grupo de 1 não faz sentido)
+  if (partners.length === 1) {
+    delete partners[0].linkGroupId;
+  }
+
+  persistAll();
+  renderMenu();
+  // Atualiza o painel de info dentro do modal sem fechar
+  const info = document.getElementById('workout-link-info');
+  if (info) info.classList.add('hidden');
+  showNotification('Treino desvinculado!', 'success');
 }
 
 // ==================== CONFIRM DELETE EXERCISE ====================
@@ -1197,6 +1422,7 @@ function confirmDeleteExercise(exerciseIndex) {
 function deleteExercise(exerciseIndex) {
   const w = getWorkout(currentWorkoutId);
   w.exercises.splice(exerciseIndex, 1);
+  syncLinkedWorkouts(currentWorkoutId);
   persistWorkout(currentWorkoutId);
   sessionData = {completedSeries:{}, completedExercises:{}, modifications:{}};
   renderExercises();
@@ -1215,6 +1441,9 @@ function openAddWorkoutModal() {
   selectedColorIdx = 0;
   buildIconPicker();
   buildColorPicker();
+  // Esconde aviso de espelho (só aparece em edição de treino já vinculado)
+  const info = document.getElementById('workout-link-info');
+  if (info) info.classList.add('hidden');
   openModal('workout-modal');
   setTimeout(() => document.getElementById('new-workout-name').focus(), 100);
 }
@@ -1226,13 +1455,24 @@ function openEditWorkoutModal(workoutId) {
   document.getElementById('new-workout-name').value = w.name;
   // Find icon index
   if (w.icon) {
-    const idx = WORKOUT_ICONS.findIndex(ic => ic.type === w.icon.type && (ic.key === w.icon.key || ic.icon === w.icon.icon));
+    const idx = WORKOUT_ICONS.findIndex(ic => ic.type === w.icon.type && (ic.key === w.icon.key || ic.icon === w.icon.icon || ic.char === w.icon.char));
     selectedIconIdx = idx >= 0 ? idx : 15;
   }
   selectedColorIdx = WORKOUT_COLORS.indexOf(w.color);
   if (selectedColorIdx < 0) selectedColorIdx = 0;
   buildIconPicker();
   buildColorPicker();
+
+  // Mostra aviso de espelho se o treino estiver em um grupo
+  const info = document.getElementById('workout-link-info');
+  const partners = getLinkedPartners(workoutId);
+  if (w.linkGroupId && partners.length > 0) {
+    document.getElementById('workout-link-partners').textContent = partners.map(p => `"${p.name}"`).join(', ');
+    info.classList.remove('hidden');
+  } else {
+    info.classList.add('hidden');
+  }
+
   openModal('workout-modal');
 }
 
@@ -1251,19 +1491,25 @@ function selectColor(idx) {
 function buildIconPicker() {
   const ip = document.getElementById('icon-picker');
   const sections = [
-    {label:'Grupos Musculares', from:0, to:14},
-    {label:'Academia & Hipertrofia', from:15, to:24},
-    {label:'Cardio & Funcional', from:25, to:34},
-    {label:'Bem-estar & Mobilidade', from:35, to:39},
+    {label:'Grupos Musculares',        from:0,  to:14},
+    {label:'Academia & Hipertrofia',   from:15, to:24},
+    {label:'Cardio & Funcional',       from:25, to:34},
+    {label:'Bem-estar & Mobilidade',   from:35, to:39},
+    {label:'Emojis Musculação',        from:40, to:WORKOUT_ICONS.length-1},
   ];
   let html = '';
   sections.forEach(sec => {
     html += `<div style="grid-column:1/-1;font-size:11px;color:#9ca3af;text-transform:uppercase;letter-spacing:0.6px;margin-top:10px;margin-bottom:2px;font-weight:600">${sec.label}</div>`;
     for (let i = sec.from; i <= Math.min(sec.to, WORKOUT_ICONS.length-1); i++) {
       const ic = WORKOUT_ICONS[i];
-      const inner = ic.type === 'img'
-        ? `<img src="${MUSCLE_ICONS[ic.key]||''}" alt="${ic.label}" style="width:26px;height:26px;object-fit:contain">`
-        : `<i class="${ic.icon}" style="font-size:18px"></i>`;
+      let inner;
+      if (ic.type === 'img') {
+        inner = `<img src="${MUSCLE_ICONS[ic.key]||''}" alt="${ic.label}" style="width:26px;height:26px;object-fit:contain">`;
+      } else if (ic.type === 'emoji') {
+        inner = `<span class="icon-option-emoji">${ic.char}</span>`;
+      } else {
+        inner = `<i class="${ic.icon}" style="font-size:18px"></i>`;
+      }
       html += `<div class="icon-option ${i===selectedIconIdx?'selected':''}" onclick="selectIcon(${i})" title="${ic.label}">${inner}</div>`;
     }
   });
@@ -1298,14 +1544,108 @@ function saveWorkoutModal() {
 }
 
 // ==================== ADD EXERCISE MODAL ====================
+let editingExerciseIndex = null; // null = modo adicionar; número = modo editar
+
 function openAddExerciseModal() {
+  editingExerciseIndex = null;
   exModalStep = 1; selectedMuscleGroup = null; selectedExercise = null;
   conjExercise = null; conjActive = false;
   document.getElementById('exercise-search').value = '';
   document.getElementById('conjugate-panel').classList.add('hidden');
   document.getElementById('conjugate-toggle-btn').classList.remove('active');
+  document.getElementById('conjugate-toggle-btn').innerHTML = '<i class="fas fa-link"></i> Adicionar exercício conjugado (biset)';
+  // Reseta campos do passo 3 para valores padrão
+  document.getElementById('ex-series').value = 3;
+  document.getElementById('ex-reps').value = 12;
+  document.getElementById('ex-weight').value = 0;
+  document.getElementById('ex-rest').value = 60;
+  document.getElementById('ex-notes').value = '';
+  document.getElementById('conj-reps').value = 12;
+  document.getElementById('conj-weight').value = 0;
+  // Atualiza título e botão
+  document.getElementById('exercise-modal-title').textContent = 'Adicionar Exercício';
+  document.getElementById('ex-confirm-btn').innerHTML = '<i class="fas fa-plus"></i> Adicionar ao Treino';
   updateStepUI();
   buildMuscleGrid();
+  openModal('exercise-modal');
+}
+
+function openEditExerciseModal(exerciseIndex) {
+  const w = getWorkout(currentWorkoutId);
+  if (!w) return;
+  const ex = w.exercises[exerciseIndex];
+  if (!ex) return;
+
+  editingExerciseIndex = exerciseIndex;
+
+  // Pré-popula o grupo muscular e o exercício selecionado
+  const muscleKey = ex.muscleKey || '';
+  selectedMuscleGroup = muscleKey || '__all__';
+
+  // Tenta localizar o exercício dentro do DB; se não encontrar, cria um shadow
+  let foundExercise = null;
+  if (muscleKey && EXERCISES_DB[muscleKey]) {
+    foundExercise = EXERCISES_DB[muscleKey].exercises.find(e => e.n === ex.name);
+    if (foundExercise) {
+      foundExercise = {...foundExercise, _muscleKey: muscleKey, _muscleName: EXERCISES_DB[muscleKey].name};
+    }
+  }
+  if (!foundExercise) {
+    foundExercise = {
+      n: ex.name,
+      l: ex.videos && ex.videos[0] ? ex.videos[0] : '',
+      d: ex.description || '',
+      _muscleKey: muscleKey,
+      _muscleName: EXERCISES_DB[muscleKey] ? EXERCISES_DB[muscleKey].name : '',
+    };
+  }
+  selectedExercise = foundExercise;
+
+  // Preenche valores do passo 3
+  document.getElementById('selected-exercise-name').textContent = selectedExercise.n;
+  document.getElementById('ex-series').value = ex.series;
+  document.getElementById('ex-reps').value = ex.reps;
+  document.getElementById('ex-weight').value = ex.weight;
+  document.getElementById('ex-rest').value = ex.rest;
+  document.getElementById('ex-notes').value = ex.notes || '';
+
+  // Estado do biset
+  if (ex.conjugate) {
+    conjActive = true;
+    conjExercise = {
+      n: ex.conjugate.name,
+      l: ex.conjugate.videos && ex.conjugate.videos[0] ? ex.conjugate.videos[0] : '',
+      d: ex.conjugate.description || '',
+      _muscleKey: ex.conjugate.muscleKey || '',
+      _muscleName: EXERCISES_DB[ex.conjugate.muscleKey] ? EXERCISES_DB[ex.conjugate.muscleKey].name : '',
+    };
+    document.getElementById('conjugate-panel').classList.remove('hidden');
+    document.getElementById('conjugate-toggle-btn').classList.add('active');
+    document.getElementById('conjugate-toggle-btn').innerHTML = '<i class="fas fa-link"></i> Remover exercício conjugado';
+    document.getElementById('conj-selected-name').innerHTML = `<i class="fas fa-check-circle" style="color:#a78bfa;margin-right:5px"></i>${escHtml(conjExercise.n)}`;
+    document.getElementById('conj-reps').value = ex.conjugate.reps;
+    document.getElementById('conj-weight').value = ex.conjugate.weight;
+    document.getElementById('conj-search').value = '';
+    filterConjExercises();
+  } else {
+    conjActive = false;
+    conjExercise = null;
+    document.getElementById('conjugate-panel').classList.add('hidden');
+    document.getElementById('conjugate-toggle-btn').classList.remove('active');
+    document.getElementById('conjugate-toggle-btn').innerHTML = '<i class="fas fa-link"></i> Adicionar exercício conjugado (biset)';
+    document.getElementById('conj-selected-name').textContent = '';
+    document.getElementById('conj-reps').value = 12;
+    document.getElementById('conj-weight').value = 0;
+  }
+
+  // Abre direto no passo 3 (Voltar leva ao 2 para trocar o exercício)
+  exModalStep = 3;
+  updateStepUI();
+
+  // Título e botão em modo edição
+  document.getElementById('exercise-modal-title').textContent = 'Editar Exercício';
+  document.getElementById('ex-confirm-btn').innerHTML = '<i class="fas fa-check"></i> Salvar Alterações';
+
   openModal('exercise-modal');
 }
 
@@ -1429,6 +1769,7 @@ function addExerciseConfirm() {
   const reps = document.getElementById('ex-reps').value || '12';
   const weight = parseFloat(document.getElementById('ex-weight').value) || 0;
   const rest = parseInt(document.getElementById('ex-rest').value) || 60;
+  const notes = (document.getElementById('ex-notes').value || '').trim();
   const muscleKey = selectedExercise._muscleKey || selectedMuscleGroup || '';
 
   const exerciseObj = {
@@ -1437,9 +1778,10 @@ function addExerciseConfirm() {
     videos: selectedExercise.l ? [selectedExercise.l] : [],
     description: selectedExercise.d || '',
     muscleKey,
+    notes,
   };
 
-  // Add conjugated if active
+  // Biset (conjugado)
   if (conjActive && conjExercise) {
     exerciseObj.conjugate = {
       name: conjExercise.n,
@@ -1451,7 +1793,23 @@ function addExerciseConfirm() {
     };
   }
 
+  const isEditing = editingExerciseIndex !== null && editingExerciseIndex !== undefined;
+  if (isEditing) {
+    // Substitui o exercício existente, preservando session data daquele index
+    w.exercises[editingExerciseIndex] = exerciseObj;
+    syncLinkedWorkouts(currentWorkoutId);
+    persistWorkout(currentWorkoutId);
+    renderExercises();
+    closeModal('exercise-modal');
+    const label = conjActive && conjExercise ? `"${selectedExercise.n}" + "${conjExercise.n}" (biset)` : `"${selectedExercise.n}"`;
+    showNotification(`${label} atualizado! ✅`, 'success');
+    renderMenu();
+    editingExerciseIndex = null;
+    return;
+  }
+
   w.exercises.push(exerciseObj);
+  syncLinkedWorkouts(currentWorkoutId);
   persistWorkout(currentWorkoutId);
   sessionData = {completedSeries:{}, completedExercises:{}, modifications:{}};
   renderExercises();
