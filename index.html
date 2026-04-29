@@ -341,6 +341,14 @@ canvas{max-height:300px}
 .exercise-title-wrap .exercise-title{white-space:normal;word-break:break-word}
 .exercise-card-btns-row{display:flex;justify-content:flex-end;align-items:center;gap:8px;width:100%}
 
+
+/* Remove botão dos 3 pontinhos (overflow menu) - Chrome/Edge */
+.exercise-video-wrap video::-webkit-media-controls-overflow-button,
+.video-preview-content video::-webkit-media-controls-overflow-button{display:none !important}
+/* Remove menu inteiro caso apareça por outras vias */
+.exercise-video-wrap video::-internal-media-controls-overflow-menu-list,
+.video-preview-content video::-internal-media-controls-overflow-menu-list{display:none !important}
+
 </style>
 </head>
 <body>
@@ -695,7 +703,7 @@ function openVideoPreview(muscleKey, name, fitbodUrl) {
     const fitbodLink = fitbodUrl
       ? `<a href="${fitbodUrl}" target="_blank" rel="noopener"><i class="fas fa-external-link-alt"></i> Abrir no Fitbod</a>`
       : '';
-    content.innerHTML = `<video controls autoplay playsinline${posterSrc?` poster="${posterSrc}"`:''} onerror="this.parentElement.innerHTML='<div class=\'video-preview-fallback\'><i class=\'fas fa-video-slash\'></i><div>Vídeo não encontrado localmente</div>${fitbodLink}</div>'"><source src="${videoSrc}" type="video/mp4"></video>`;
+    content.innerHTML = `<video controls autoplay playsinline controlsList="nodownload noremoteplayback noplaybackrate" disablePictureInPicture${posterSrc?` poster="${posterSrc}"`:''} onerror="this.parentElement.innerHTML='<div class=\'video-preview-fallback\'><i class=\'fas fa-video-slash\'></i><div>Vídeo não encontrado localmente</div>${fitbodLink}</div>'"><source src="${videoSrc}" type="video/mp4"></video>`;
   } else if (fitbodUrl) {
     content.innerHTML = `<div class="video-preview-fallback"><i class="fas fa-video-slash"></i><div>Vídeo não disponível</div><a href="${fitbodUrl}" target="_blank" rel="noopener"><i class="fas fa-external-link-alt"></i> Abrir no Fitbod</a></div>`;
   } else {
@@ -1186,7 +1194,7 @@ function renderExercises() {
                 }).join('');
               }
               return `<div class="exercise-video-wrap">
-                <video controls preload="none" playsinline${posterSrc?` poster="${posterSrc}"`:''}
+                <video controls preload="none" playsinline controlsList="nodownload noremoteplayback noplaybackrate" disablePictureInPicture${posterSrc?` poster="${posterSrc}"`:''}
                   onerror="this.parentElement.innerHTML='<div class=\'exercise-video-fallback\'><i class=\'fas fa-video-slash\'></i><div>Vídeo não encontrado localmente</div>${fitbodUrl?`<a href=\'${fitbodUrl}\' target=\'_blank\'><i class=\'fas fa-external-link-alt\'></i> Abrir no Fitbod</a>`:''}</div>'">
                   <source src="${videoSrc}" type="video/mp4">
                 </video>
@@ -1252,7 +1260,7 @@ function renderExercises() {
               }).join('');
             }
             return `<div class="exercise-video-wrap">
-              <video controls preload="none" playsinline${posterSrc?` poster="${posterSrc}"`:''}
+              <video controls preload="none" playsinline controlsList="nodownload noremoteplayback noplaybackrate" disablePictureInPicture${posterSrc?` poster="${posterSrc}"`:''}
                 onerror="this.parentElement.innerHTML='<div class=\'exercise-video-fallback\'><i class=\'fas fa-video-slash\'></i><div>Vídeo não encontrado localmente</div>${fitbodUrl?`<a href=\'${fitbodUrl}\' target=\'_blank\'><i class=\'fas fa-external-link-alt\'></i> Abrir no Fitbod</a>`:''}</div>'">
                 <source src="${videoSrc}" type="video/mp4">
               </video>
