@@ -374,6 +374,26 @@ canvas{max-height:300px}
 .cat-filter-btn:hover{background:rgba(61,107,42,0.2) !important;border-color:rgba(61,107,42,0.5) !important;color:#fff !important}
 .cat-filter-btn.active{background:rgba(61,107,42,0.3) !important;border-color:#3d6b2a !important;color:#86c867 !important}
 
+
+/* ============ EXERCISE CATEGORY TAG ============ */
+.ex-cat-tag{display:inline-flex !important;align-items:center;gap:6px;padding:4px 10px;border-radius:6px;font-size:11px;font-weight:500;flex-shrink:0;white-space:nowrap;line-height:1.2}
+.ex-cat-tag::before{content:"" !important;display:inline-block;width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.ex-cat-tag.cat-hipertrofia{background:rgba(220,38,38,0.15);border:1px solid rgba(220,38,38,0.6);color:#fca5a5}
+.ex-cat-tag.cat-hipertrofia::before{background:#fca5a5;box-shadow:0 0 6px rgba(252,165,165,0.7)}
+.ex-cat-tag.cat-alongamento{background:rgba(59,130,246,0.15);border:1px solid rgba(59,130,246,0.6);color:#93c5fd}
+.ex-cat-tag.cat-alongamento::before{background:#93c5fd;box-shadow:0 0 6px rgba(147,197,253,0.7)}
+.ex-cat-tag.cat-mobilidade{background:rgba(245,158,11,0.15);border:1px solid rgba(245,158,11,0.6);color:#fcd34d}
+.ex-cat-tag.cat-mobilidade::before{background:#fcd34d;box-shadow:0 0 6px rgba(252,211,77,0.7)}
+
+
+/* Cores específicas dos botões "Tipo de Exercício" pra combinar com as tags */
+.cat-filter-btn[data-cat="hipertrofia"]:hover{background:rgba(220,38,38,0.15) !important;border-color:rgba(220,38,38,0.6) !important;color:#fca5a5 !important}
+.cat-filter-btn[data-cat="hipertrofia"].active{background:rgba(220,38,38,0.22) !important;border-color:#dc2626 !important;color:#fca5a5 !important}
+.cat-filter-btn[data-cat="alongamento"]:hover{background:rgba(59,130,246,0.15) !important;border-color:rgba(59,130,246,0.6) !important;color:#93c5fd !important}
+.cat-filter-btn[data-cat="alongamento"].active{background:rgba(59,130,246,0.22) !important;border-color:#3b82f6 !important;color:#93c5fd !important}
+.cat-filter-btn[data-cat="mobilidade"]:hover{background:rgba(245,158,11,0.15) !important;border-color:rgba(245,158,11,0.6) !important;color:#fcd34d !important}
+.cat-filter-btn[data-cat="mobilidade"].active{background:rgba(245,158,11,0.22) !important;border-color:#f59e0b !important;color:#fcd34d !important}
+
 </style>
 </head>
 <body>
