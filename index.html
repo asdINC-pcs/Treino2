@@ -296,6 +296,10 @@ canvas{max-height:300px}
 .exercise-video-wrap video::-moz-media-controls-overlay-play-button{display:none !important}
 .video-preview-content video::-moz-media-controls-overlay-play-button{display:none !important}
 
+
+.exercise-item-thumb{width:48px;height:48px;border-radius:6px;object-fit:cover;flex-shrink:0;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08)}
+@media (max-width:600px){.exercise-item-thumb{width:42px;height:42px}}
+
 </style>
 </head>
 <body>
@@ -1882,6 +1886,7 @@ function buildExerciseList(filter='') {
     const hasLink = ex.l && ex.l.trim();
     const muscleTag = showTag ? `<span class="muscle-tag">${ex._muscleName}</span>` : '';
     return `<div class="exercise-list-item ${selectedExercise===ex?'selected':''}" onclick="selectExerciseItem(${i})">
+      <img class="exercise-item-thumb" src="${getLocalImage(ex._muscleKey, ex.n) || ''}" alt="" loading="lazy" onerror="this.style.visibility='hidden'">
       <span class="exercise-item-name">${ex.n}</span>
       ${muscleTag}
       <button class="exercise-item-link-btn" type="button" onclick="event.stopPropagation();openVideoPreview('${ex._muscleKey}','${escAttr(ex.n)}','${escAttr(ex.l||'')}')" title="Ver vídeo"><i class="fas fa-eye"></i></button>
@@ -1999,6 +2004,7 @@ function filterConjExercises() {
   list.innerHTML = sorted.slice(0, 80).map((ex, i) => {
     const hasLink = ex.l && ex.l.trim();
     return `<div class="exercise-list-item" onclick="selectConjExercise(${i}, '${escAttr(q)}')" style="border-color:rgba(139,92,246,0.2)">
+      <img class="exercise-item-thumb" src="${getLocalImage(ex._muscleKey, ex.n) || ''}" alt="" loading="lazy" onerror="this.style.visibility='hidden'">
       <span class="exercise-item-name">${ex.n}</span>
       <span class="muscle-tag">${ex._muscleName}</span>
       <button class="exercise-item-link-btn" type="button" onclick="event.stopPropagation();openVideoPreview('${ex._muscleKey}','${escAttr(ex.n)}','${escAttr(ex.l||'')}')" title="Ver vídeo"><i class="fas fa-eye"></i></button>
