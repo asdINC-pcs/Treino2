@@ -914,14 +914,18 @@ function renderExercises() {
       conjSection = `
         <div class="conjugate-divider"><i class="fas fa-link"></i> Exercício B</div>
         <div class="conjugate-section">
-          <div style="font-weight:600;color:#c4b5fd;font-size:15px;margin-bottom:12px">${conj.name}</div>
+          <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px">
+            <div style="font-weight:600;color:#c4b5fd;font-size:15px;flex:1;min-width:0">${conj.name}</div>
+            <div style="display:flex;align-items:center;gap:6px" onclick="event.stopPropagation()">
+              ${conjInfoBadge}
+              ${conjMuscleIcon}
+            </div>
+          </div>
           <div class="exercise-info" style="margin:0 0 12px">
             <div class="info-item"><div class="info-label">Reps B</div><div class="info-value" onclick="editConjField(${index},'reps')"><span id="conj-reps-${index}">${conj.reps}</span></div></div>
             <div class="info-item"><div class="info-label">Carga B (kg)</div><div class="info-value" onclick="editConjField(${index},'weight')"><span id="conj-weight-${index}">${conj.weight}</span></div></div>
           </div>
           <div class="exercise-links">
-            ${conjMuscleIcon}
-            ${conjInfoBadge}
             ${(() => {
               const videoSrc = getLocalVideo(conj.muscleKey, conj.name);
               const posterSrc = getLocalImage(conj.muscleKey, conj.name);
@@ -958,6 +962,8 @@ function renderExercises() {
           ${conjBadge}
         </div>
         <div class="exercise-card-btns" onclick="event.stopPropagation()">
+          ${infoBadge}
+          ${muscleIconHtml}
           <button class="ex-action-btn" onclick="openEditExerciseModal(${index})" title="Editar"><i class="fas fa-pencil-alt"></i></button>
           <button class="ex-action-btn danger" onclick="confirmDeleteExercise(${index})" title="Remover"><i class="fas fa-trash"></i></button>
         </div>
@@ -984,8 +990,6 @@ function renderExercises() {
           </div>
         </div>` : ''}
         <div class="exercise-links">
-          ${muscleIconHtml}
-          ${infoBadge}
           ${(() => {
             const videoSrc = getLocalVideo(exercise.muscleKey, exercise.name);
             const posterSrc = getLocalImage(exercise.muscleKey, exercise.name);
