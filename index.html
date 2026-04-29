@@ -300,6 +300,18 @@ canvas{max-height:300px}
 .exercise-item-thumb{width:48px;height:48px;border-radius:6px;object-fit:cover;flex-shrink:0;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08)}
 @media (max-width:600px){.exercise-item-thumb{width:42px;height:42px}}
 
+
+/* ==================== MUSCLE MAP DISPLAY ==================== */
+.muscle-maps-section{padding:14px 16px 16px;background:rgba(0,0,0,0.25);border-top:1px solid rgba(255,255,255,0.06)}
+.muscle-maps-title{color:#9ca3af;font-size:11px;font-weight:600;letter-spacing:1px;text-transform:uppercase;margin-bottom:10px}
+.muscle-maps-grid{display:flex;justify-content:center;gap:16px;align-items:flex-start}
+.muscle-map-figure{flex:0 1 auto;display:flex;flex-direction:column;align-items:center;gap:4px;max-width:140px}
+.muscle-map-figure svg{width:100%;height:auto;max-height:200px;display:block}
+.muscle-map-label{font-size:10px;color:#888;text-transform:uppercase;letter-spacing:0.5px}
+.muscle-maps-loading{text-align:center;color:#666;font-size:12px;padding:20px}
+.muscle-maps-empty{text-align:center;color:#666;font-size:12px;padding:8px;font-style:italic}
+@media (max-width:600px){.muscle-map-figure{max-width:120px}.muscle-map-figure svg{max-height:170px}}
+
 </style>
 </head>
 <body>
@@ -645,6 +657,8 @@ function openVideoPreview(muscleKey, name, fitbodUrl) {
   const overlay = document.getElementById('videoPreviewOverlay');
   const title = document.getElementById('videoPreviewTitle');
   const content = document.getElementById('videoPreviewContent');
+  const muscles = document.getElementById('videoPreviewMuscles');
+  if (muscles) renderMuscleMaps(muscles, fitbodUrl);
   title.textContent = name || '';
   const videoSrc = getLocalVideo(muscleKey, name);
   const posterSrc = getLocalImage(muscleKey, name);
@@ -664,9 +678,12 @@ function openVideoPreview(muscleKey, name, fitbodUrl) {
 function closeVideoPreview() {
   const overlay = document.getElementById('videoPreviewOverlay');
   const content = document.getElementById('videoPreviewContent');
+  const muscles = document.getElementById('videoPreviewMuscles');
   const v = content.querySelector('video');
   if (v) { try { v.pause(); } catch(e) {} }
   content.innerHTML = '';
+  content.style.display = '';
+  if (muscles) { muscles.innerHTML = ''; muscles.style.borderTop = ''; }
   overlay.classList.remove('active');
   document.body.style.overflow = '';
 }
@@ -677,6 +694,78 @@ document.addEventListener('keydown', e => {
     if (ov && ov.classList.contains('active')) closeVideoPreview();
   }
 });
+
+
+function openMuscleMapPreview(name, fitbodUrl) {
+  const overlay = document.getElementById('videoPreviewOverlay');
+  const title = document.getElementById('videoPreviewTitle');
+  const content = document.getElementById('videoPreviewContent');
+  const muscles = document.getElementById('videoPreviewMuscles');
+  title.textContent = name || '';
+  // Esconde área do vídeo, foco só nos músculos
+  content.style.display = 'none';
+  if (muscles) {
+    muscles.style.borderTop = 'none';
+    renderMuscleMaps(muscles, fitbodUrl);
+  }
+  overlay.classList.add('active');
+  document.body.style.overflow = 'hidden';
+}
+
+
+// ==================== MUSCLE MAPS (lazy loaded) ====================
+let __muscleMapsData = null;
+let __muscleMapsPromise = null;
+
+async function loadMuscleMaps() {
+  if (__muscleMapsData) return __muscleMapsData;
+  if (__muscleMapsPromise) return __muscleMapsPromise;
+  __muscleMapsPromise = (async () => {
+    try {
+      const res = await fetch('muscle_maps.json');
+      if (!res.ok) throw new Error('HTTP ' + res.status);
+      __muscleMapsData = await res.json();
+      return __muscleMapsData;
+    } catch(e) {
+      console.warn('Falha ao carregar muscle_maps.json:', e);
+      __muscleMapsData = { f: {}, b: {}, s: {} };
+      return __muscleMapsData;
+    }
+  })();
+  return __muscleMapsPromise;
+}
+
+function slugFromUrl(fitbodUrl) {
+  if (!fitbodUrl) return null;
+  const m = fitbodUrl.match(/\/exercises\/([a-z0-9\-]+)/i);
+  return m ? m[1] : null;
+}
+
+async function renderMuscleMaps(containerEl, fitbodUrl) {
+  if (!containerEl) return;
+  const slug = slugFromUrl(fitbodUrl);
+  if (!slug) {
+    containerEl.innerHTML = '';
+    return;
+  }
+  containerEl.innerHTML = '<div class="muscle-maps-loading"><i class="fas fa-spinner fa-spin"></i> Carregando músculos...</div>';
+  const data = await loadMuscleMaps();
+  const ids = data.s[slug];
+  if (!ids) {
+    containerEl.innerHTML = '<div class="muscle-maps-empty">Músculos não disponíveis</div>';
+    return;
+  }
+  const [fid, bid] = ids;
+  const front = data.f[fid] || '';
+  const back = data.b[bid] || '';
+  containerEl.innerHTML = `
+    <div class="muscle-maps-title"><i class="fas fa-bullseye"></i> Músculos trabalhados</div>
+    <div class="muscle-maps-grid">
+      <div class="muscle-map-figure">${front}<div class="muscle-map-label">Frente</div></div>
+      <div class="muscle-map-figure">${back}<div class="muscle-map-label">Costas</div></div>
+    </div>`;
+}
+
 
 
 
@@ -963,7 +1052,7 @@ function renderExercises() {
     // Muscle group icon
     const muscleKey = exercise.muscleKey || '';
     const muscleIconHtml = muscleKey && MUSCLE_ICONS[muscleKey]
-      ? `<img src="${MUSCLE_ICONS[muscleKey]}" class="ex-muscle-icon" title="${EXERCISES_DB[muscleKey]?.name||''}">`
+      ? `<img src="${MUSCLE_ICONS[muscleKey]}" class="ex-muscle-icon" title="Ver músculos trabalhados" style="cursor:pointer" onclick="event.stopPropagation();openMuscleMapPreview(${JSON.stringify(exercise.name)},${JSON.stringify(videos[0]||'')})">`
       : '';
 
     // Conjugate badge in title area
@@ -974,7 +1063,7 @@ function renderExercises() {
     if (conj) {
       const conjMuscleKey = conj.muscleKey || '';
       const conjMuscleIcon = conjMuscleKey && MUSCLE_ICONS[conjMuscleKey]
-        ? `<img src="${MUSCLE_ICONS[conjMuscleKey]}" class="ex-muscle-icon" title="${EXERCISES_DB[conjMuscleKey]?.name||''}">`
+        ? `<img src="${MUSCLE_ICONS[conjMuscleKey]}" class="ex-muscle-icon" title="Ver músculos trabalhados" style="cursor:pointer" onclick="event.stopPropagation();openMuscleMapPreview(${JSON.stringify(conj.name)},${JSON.stringify((conj.videos&&conj.videos[0])||'')})">`
         : '';
       const conjVideos = conj.videos || [];
       const conjDesc = conj.description || '';
@@ -2266,6 +2355,7 @@ document.addEventListener('DOMContentLoaded', () => {
       <button class="video-preview-close" onclick="closeVideoPreview()" title="Fechar"><i class="fas fa-times"></i></button>
     </div>
     <div class="video-preview-content" id="videoPreviewContent"></div>
+    <div class="muscle-maps-section" id="videoPreviewMuscles"></div>
   </div>
 </div>
 
