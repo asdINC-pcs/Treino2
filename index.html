@@ -342,12 +342,29 @@ canvas{max-height:300px}
 .exercise-card-btns-row{display:flex;justify-content:flex-end;align-items:center;gap:8px;width:100%}
 
 
-/* Remove botão dos 3 pontinhos (overflow menu) - Chrome/Edge */
-.exercise-video-wrap video::-webkit-media-controls-overflow-button,
-.video-preview-content video::-webkit-media-controls-overflow-button{display:none !important}
-/* Remove menu inteiro caso apareça por outras vias */
-.exercise-video-wrap video::-internal-media-controls-overflow-menu-list,
-.video-preview-content video::-internal-media-controls-overflow-menu-list{display:none !important}
+
+/* ============ CUSTOM VIDEO CONTROLS ============ */
+.exercise-video-wrap{position:relative}
+.video-controls{position:absolute;left:0;right:0;bottom:0;padding:8px 12px;background:linear-gradient(to top,rgba(0,0,0,0.85) 0%,rgba(0,0,0,0) 100%);display:flex;align-items:center;gap:10px;font-size:13px;color:#fff;z-index:4;opacity:0;transition:opacity 0.25s;pointer-events:none}
+.video-controls.visible{opacity:1;pointer-events:auto}
+.exercise-video-wrap:hover .video-controls,
+.exercise-video-wrap.touched .video-controls{opacity:1;pointer-events:auto}
+.video-controls button{background:transparent;border:none;color:#fff;cursor:pointer;padding:4px;font-size:14px;display:flex;align-items:center;justify-content:center;min-width:24px;height:24px;-webkit-tap-highlight-color:transparent}
+.video-controls button:hover{color:#86c867}
+.vc-time{font-variant-numeric:tabular-nums;font-size:11px;opacity:0.9;flex-shrink:0;min-width:64px;text-align:center}
+.vc-progress{flex:1;height:5px;background:rgba(255,255,255,0.25);border-radius:3px;cursor:pointer;position:relative;overflow:hidden}
+.vc-progress-fill{position:absolute;left:0;top:0;bottom:0;background:#86c867;border-radius:3px;width:0%;transition:width 0.1s linear}
+.vc-fullscreen{flex-shrink:0}
+
+/* Modal usa mesmas classes mas com fundo levemente diferente */
+.video-preview-content{position:relative}
+
+/* Esconde controles nativos de TODOS os videos */
+.exercise-video-wrap video::-webkit-media-controls,
+.video-preview-content video::-webkit-media-controls{display:none !important}
+.exercise-video-wrap video::-webkit-media-controls-enclosure,
+.video-preview-content video::-webkit-media-controls-enclosure{display:none !important}
+
 
 </style>
 </head>
@@ -761,28 +778,103 @@ const MUSCLE_MAP_BASE = 'MuscleMaps/';
 const __muscleMapCache = {};  // hash -> svg content
 
 
-// Inicializa botão custom de play em videos. Chama isso depois de inserir o <video> no DOM.
+// Inicializa player customizado (botão central + barra de controles minimalista)
 function attachCustomPlayButton(videoEl) {
   if (!videoEl || videoEl.dataset.customPlay === '1') return;
   videoEl.dataset.customPlay = '1';
   const wrap = videoEl.parentElement;
   if (!wrap) return;
-  // Garante position relative no wrap
   if (getComputedStyle(wrap).position === 'static') wrap.style.position = 'relative';
-  const btn = document.createElement('button');
-  btn.type = 'button';
-  btn.className = 'custom-play-btn';
-  btn.setAttribute('aria-label', 'Tocar vídeo');
-  btn.innerHTML = '<i class="fas fa-play"></i>';
-  btn.addEventListener('click', (e) => {
-    e.preventDefault();
-    e.stopPropagation();
+
+  // Remove o atributo controls nativo
+  videoEl.removeAttribute('controls');
+
+  // Botão de play central
+  const playBtn = document.createElement('button');
+  playBtn.type = 'button';
+  playBtn.className = 'custom-play-btn';
+  playBtn.setAttribute('aria-label', 'Tocar vídeo');
+  playBtn.innerHTML = '<i class="fas fa-play"></i>';
+  playBtn.addEventListener('click', e => {
+    e.preventDefault(); e.stopPropagation();
     videoEl.play().catch(()=>{});
   });
-  videoEl.addEventListener('play', () => btn.classList.add('hidden'));
-  videoEl.addEventListener('pause', () => btn.classList.remove('hidden'));
-  videoEl.addEventListener('ended', () => btn.classList.remove('hidden'));
-  wrap.appendChild(btn);
+  wrap.appendChild(playBtn);
+
+  // Barra de controles customizada
+  const controls = document.createElement('div');
+  controls.className = 'video-controls';
+  controls.innerHTML = `
+    <button class="vc-play-pause" aria-label="Play/Pause"><i class="fas fa-pause"></i></button>
+    <span class="vc-time">0:00 / 0:00</span>
+    <div class="vc-progress"><div class="vc-progress-fill"></div></div>
+    <button class="vc-fullscreen" aria-label="Tela cheia"><i class="fas fa-expand"></i></button>
+  `;
+  controls.addEventListener('click', e => e.stopPropagation());
+  wrap.appendChild(controls);
+
+  const playPauseBtn = controls.querySelector('.vc-play-pause');
+  const timeLabel = controls.querySelector('.vc-time');
+  const progress = controls.querySelector('.vc-progress');
+  const progressFill = controls.querySelector('.vc-progress-fill');
+  const fullscreenBtn = controls.querySelector('.vc-fullscreen');
+
+  function fmtTime(s){
+    if (!isFinite(s)) return '0:00';
+    s = Math.floor(s);
+    const m = Math.floor(s/60), sec = s%60;
+    return m + ':' + (sec<10?'0':'') + sec;
+  }
+
+  playPauseBtn.addEventListener('click', e => {
+    e.stopPropagation();
+    if (videoEl.paused) videoEl.play().catch(()=>{}); else videoEl.pause();
+  });
+
+  videoEl.addEventListener('play', () => {
+    playBtn.classList.add('hidden');
+    playPauseBtn.innerHTML = '<i class="fas fa-pause"></i>';
+  });
+  videoEl.addEventListener('pause', () => {
+    playBtn.classList.remove('hidden');
+    playPauseBtn.innerHTML = '<i class="fas fa-play"></i>';
+  });
+  videoEl.addEventListener('ended', () => {
+    playBtn.classList.remove('hidden');
+    playPauseBtn.innerHTML = '<i class="fas fa-play"></i>';
+  });
+
+  videoEl.addEventListener('timeupdate', () => {
+    const cur = videoEl.currentTime || 0;
+    const dur = videoEl.duration || 0;
+    timeLabel.textContent = fmtTime(cur) + ' / ' + fmtTime(dur);
+    if (dur > 0) progressFill.style.width = (100 * cur / dur) + '%';
+  });
+
+  function seekFromEvent(e){
+    const r = progress.getBoundingClientRect();
+    const x = (e.touches ? e.touches[0].clientX : e.clientX) - r.left;
+    const pct = Math.max(0, Math.min(1, x / r.width));
+    if (videoEl.duration) videoEl.currentTime = pct * videoEl.duration;
+  }
+  progress.addEventListener('click', e => { e.stopPropagation(); seekFromEvent(e); });
+
+  fullscreenBtn.addEventListener('click', e => {
+    e.stopPropagation();
+    if (document.fullscreenElement) document.exitFullscreen();
+    else if (videoEl.requestFullscreen) videoEl.requestFullscreen();
+    else if (videoEl.webkitEnterFullscreen) videoEl.webkitEnterFullscreen();
+  });
+
+  // No mobile, toque mostra controles temporariamente
+  let hideTimer = null;
+  function showControlsTemporarily() {
+    wrap.classList.add('touched');
+    if (hideTimer) clearTimeout(hideTimer);
+    hideTimer = setTimeout(() => wrap.classList.remove('touched'), 3000);
+  }
+  videoEl.addEventListener('click', showControlsTemporarily);
+  wrap.addEventListener('touchstart', showControlsTemporarily, { passive: true });
 }
 
 // Anexa botão a todos os videos novos do DOM (MutationObserver)
